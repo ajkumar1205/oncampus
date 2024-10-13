@@ -1,16 +1,15 @@
-# oncampus
+# OnCampus
 
-A new Flutter project.
+## Must Do
+- `git pull origin main` Make sure to run this command before start development to stay updated on the repository.
+- Push the updated changes as you close.
 
-## Getting Started
+## Coding Format
+- constants (Folder) contains all the constants of the application. Write all the files with `relative_name.const.dart`.
+- utils (Folder) contains all the functions that we may need in the application. Global utilities should be directly put there i.e., `extensions.dart` otherwise put all the functions in the specific folder e.g. `functions/firebase/auth.func.dart` i.e., functions (Folder).
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## May Help
+- `SizedBox()`, with height or width, can be written by `10.vertical()` for height or `20.2.horizontal()` for width. You can even pass a child widgte in the function.
+- `Text("Something")` can be easily written by `"Somthing".text()`, TextStyle can be passed into the text function for ease.
+- Height or width should always be given using format `10.h`, `3.2.w` etc. The `.h` or `.w` represents corresponding percentage of height and width of the screen.
