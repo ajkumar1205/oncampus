@@ -18,60 +18,50 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Page'),
-      ),
-      body: Center(
-        child: SizedBox(
-          width: 300,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text("Sign in",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-              TextField(
-                controller: user,
-                decoration: const InputDecoration(
-                  hintText: 'Username',
-                ),
-              ),
-              TextField(
-                controller: pass,
-                decoration: const InputDecoration(
-                  hintText: 'Password',
-                ),
-              ),
-              TextButton(
-                onPressed: () async {
-                  http.Response? response;
-                  if (user.text.isNotEmpty && pass.text.isNotEmpty) {
-                    response = await http.post(
-                      Uri.parse("http://localhost:3000/user/token"),
-                      body: {
-                        "username": user.text.trim(),
-                        "password": pass.text.trim(),
-                      },
-                    );
-                  }
-                  if (response != null && response.statusCode == 200) {
-                    final body = jsonDecode(response.body);
-
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const GroupChatPage(),
-                    ));
-                  }
-                },
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.deepPurple,
-                ),
-                child: const Text('Submit'),
-              ),
-            ],
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextField(
+            controller: user,
+            decoration: const InputDecoration(
+              hintText: 'Username or email',
+            ),
           ),
-        ),
+          TextField(
+            controller: pass,
+            decoration: const InputDecoration(
+              hintText: 'Enter your Password',
+            ),
+          ),
+          TextButton(
+            onPressed: () async {
+              http.Response? response;
+              if (user.text.isNotEmpty && pass.text.isNotEmpty) {
+                response = await http.post(
+                  Uri.parse("http://localhost:3000/user/token"),
+                  body: {
+                    "username": user.text.trim(),
+                    "password": pass.text.trim(),
+                  },
+                );
+              }
+              if (response != null && response.statusCode == 200) {
+                final body = jsonDecode(response.body);
+
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const GroupChatPage(),
+                ));
+              }
+            },
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.white,
+              backgroundColor: Colors.deepPurple,
+            ),
+            child: const Text('Submit'),
+          ),
+        ],
       ),
     );
   }
