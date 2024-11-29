@@ -39,6 +39,7 @@ class _SignUpPageState extends State<SignUpPage> {
               height: 40,
             ),
             TextField(
+              style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 hintText: 'Username or email',
                 border: OutlineInputBorder(

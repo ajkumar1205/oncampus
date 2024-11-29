@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'Homepage/friends_home_page.dart';
-import 'Homepage/all_home_page.dart';
-import '../constants/colors.const.dart';
+import 'friends_home_page.dart';
+import 'all_home_page.dart';
+import '../../constants/colors.const.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

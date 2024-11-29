@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:oncampus/pages/home_page.dart';
+import 'package:oncampus/pages/Homepage/home_page.dart';
+import 'package:oncampus/pages/ProfileSection/edit_page.dart';
+import 'package:oncampus/pages/ProfileSection/profile_page.dart';
 import 'package:oncampus/pages/login_page.dart';
 import 'package:oncampus/pages/signup_page.dart';
 
@@ -25,13 +27,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'ONCAMPUS',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const ProfilePage(),
     );
   }
 }

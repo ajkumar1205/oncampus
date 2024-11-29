@@ -39,6 +39,7 @@ class _LoginPageState extends State<LoginPage> {
               height: 40,
             ),
             TextField(
+              style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 hintText: 'Username or email',
                 border: OutlineInputBorder(
@@ -49,6 +50,8 @@ class _LoginPageState extends State<LoginPage> {
             ),
             const SizedBox(height: 15),
             TextField(
+              obscureText: true,
+              style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 hintText: 'Enter  your Password',
                 border: OutlineInputBorder(
