@@ -6,7 +6,23 @@ Widget listItemBuilder(BuildContext context, int index) {
   return ListTile(
     title: const Text("username", style: TextStyle(color: Colors.white)),
     subtitle: const Text("name", style: TextStyle(color: Colors.white)),
-    leading: CircleAvatar(),
+    leading: Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: Colors.white, // Border color
+          width: 2, // Border width
+        ),
+      ),
+      child: const CircleAvatar(
+          radius: 20,
+          backgroundColor: Colors.black,
+          child: Icon(
+            Icons.person,
+            color: Colors.white,
+            size: 30,
+          )),
+    ),
     trailing: Row(
       mainAxisSize: MainAxisSize.min,
       children: [
