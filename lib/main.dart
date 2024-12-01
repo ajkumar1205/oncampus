@@ -4,7 +4,7 @@ import 'package:oncampus/pages/Followers/mainFollowers.dart';
 import 'package:oncampus/pages/Homepage/home_page.dart';
 import 'package:oncampus/pages/ProfileSection/edit_page.dart';
 import 'package:oncampus/pages/ProfileSection/profile_page.dart';
-import 'package:oncampus/pages/login_page.dart';
+import 'package:oncampus/pages/Authentication/login_page.dart';
 import 'package:oncampus/pages/signup_page.dart';
 
 import 'pages/signin_page.dart';
