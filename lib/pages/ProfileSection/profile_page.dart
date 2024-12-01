@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:oncampus/pages/Followers/followers_page.dart';
+import 'package:oncampus/pages/Followers/following_page.dart';
+import 'package:oncampus/pages/Followers/mainFollowers.dart';
 import 'package:oncampus/pages/ProfileSection/edit_page.dart';
 import '../../constants/colors.const.dart';
 import '../../constants/padding.const.dart';
@@ -132,17 +135,33 @@ class _ProfilePageState extends State<ProfilePage> {
                     Text("Posts", style: TextStyle(color: Colors.white)),
                   ],
                 ),
-                const Column(
-                  children: [
-                    Text("0", style: TextStyle(color: Colors.white)),
-                    Text("Followers", style: TextStyle(color: Colors.white)),
-                  ],
+                TextButton(
+                  onPressed: () => {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MainFollowersPage(index: 0)))
+                  },
+                  child: const Column(
+                    children: [
+                      Text("0", style: TextStyle(color: Colors.white)),
+                      Text("Followers", style: TextStyle(color: Colors.white)),
+                    ],
+                  ),
                 ),
-                const Column(
-                  children: [
-                    Text("0", style: TextStyle(color: Colors.white)),
-                    Text("Following", style: TextStyle(color: Colors.white)),
-                  ],
+                TextButton(
+                  onPressed: () => {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MainFollowersPage(index: 1)))
+                  },
+                  child: const Column(
+                    children: [
+                      Text("0", style: TextStyle(color: Colors.white)),
+                      Text("Following", style: TextStyle(color: Colors.white)),
+                    ],
+                  ),
                 ),
               ],
             ),

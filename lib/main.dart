@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:oncampus/pages/Followers/mainFollowers.dart';
 import 'package:oncampus/pages/Homepage/home_page.dart';
 import 'package:oncampus/pages/ProfileSection/edit_page.dart';
 import 'package:oncampus/pages/ProfileSection/profile_page.dart';
