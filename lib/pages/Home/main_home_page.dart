@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:oncampus/pages/Chat/chat_list_page.dart';
 import 'package:oncampus/pages/Chat/chat_page.dart';
 import 'package:oncampus/pages/Posts/createPost_page.dart';
+
 import '../Search/search_page.dart';
 import '../Notes/notes_page.dart';
 import '../Video_Dating/video_dating_page.dart';
@@ -57,8 +59,10 @@ class _MainHomePageState extends State<MainHomePage> {
               )),
           IconButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Chatpage()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ChatListPage()));
               },
               icon: const Icon(Icons.chat_bubble_outline_rounded,
                   color: Colors.white)),
