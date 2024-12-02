@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oncampus/pages/Authentication/OTPVerification_page.dart';
 import '../../constants/colors.const.dart';
 import '../../constants/padding.const.dart';
 import 'package:intl/intl.dart';
@@ -183,8 +184,14 @@ class _RegisterPageState extends State<RegisterPage> {
                     backgroundColor: kPrimaryColor,
                     shape: ContinuousRectangleBorder(
                         borderRadius: BorderRadius.circular(15))),
-                onPressed: () {},
-                child: Text("Register", style: TextStyle(color: Colors.black)))
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const OTPVerificationPage()));
+                },
+                child: const Text("Register",
+                    style: TextStyle(color: Colors.black)))
           ],
         ),
       ),
