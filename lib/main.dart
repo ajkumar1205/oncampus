@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:oncampus/pages/Authentication/login_page.dart';
+import 'package:oncampus/pages/Authentication/register_page.dart';
 import 'package:oncampus/pages/Home/main_home_page.dart';
 import 'constants/size.const.dart';
 import 'firebase_options.dart';
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
-      home: const MainHomePage(),
+      home: const RegisterPage(),
     );
   }
 }

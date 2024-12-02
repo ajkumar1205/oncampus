@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:oncampus/constants/padding.const.dart';
+import 'package:oncampus/pages/Chat/chat_profile_page.dart';
 
 class Chatpage extends StatefulWidget {
   const Chatpage({super.key});
@@ -49,7 +50,12 @@ class _ChatpageState extends State<Chatpage> {
               const Spacer(), // To push content to the left side and make space for forward arrow
               // Forward arrow icon
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ChatProfilePage()));
+                },
                 icon: const Icon(
                   Icons.arrow_forward_ios,
                   color: Colors.white,
@@ -110,7 +116,7 @@ class _ChatpageState extends State<Chatpage> {
                         ),
                         IconButton(
                             onPressed: () {},
-                            icon: Icon(Icons.send, color: Colors.white))
+                            icon: const Icon(Icons.send, color: Colors.white))
                       ],
                     )),
               ],
