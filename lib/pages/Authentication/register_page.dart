@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:oncampus/pages/Authentication/OTPVerification_page.dart';
+import 'package:oncampus/services/auth_service.dart';
 import '../../constants/colors.const.dart';
 import '../../constants/padding.const.dart';
 import 'package:intl/intl.dart';
@@ -12,7 +13,56 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  TextEditingController firstName = TextEditingController();
+  TextEditingController lastName = TextEditingController();
+  TextEditingController userName = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController rollNumber = TextEditingController();
   DateTime? _selectedDate;
+  bool _isLoading = false;
+
+  void _handlePostData() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      bool success = await AuthService.postData(
+          firstName.toString(),
+          lastName.toString(),
+          userName.toString(),
+          email.toString(),
+          password.toString(),
+          rollNumber.toString(),
+          _selectedDate!);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+              success ? 'Registration Successful!' : 'Registration Failed'),
+          backgroundColor: success ? Colors.green : Colors.red,
+        ),
+      );
+      if (success) {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const OTPVerificationPage()));
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -41,7 +91,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   String _formatDate(DateTime? date) {
     return date != null
-        ? DateFormat('dd MMMM yyyy').format(date)
+        ? DateFormat('yyyy-MM-dd').format(date)
         : 'Select Date of Birth';
   }
 
@@ -184,14 +234,11 @@ class _RegisterPageState extends State<RegisterPage> {
                     backgroundColor: kPrimaryColor,
                     shape: ContinuousRectangleBorder(
                         borderRadius: BorderRadius.circular(15))),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const OTPVerificationPage()));
-                },
-                child: const Text("Register",
-                    style: TextStyle(color: Colors.black)))
+                onPressed: _isLoading ? null : _handlePostData,
+                child: _isLoading
+                    ? const CircularProgressIndicator()
+                    : const Text("Register",
+                        style: TextStyle(color: Colors.black)))
           ],
         ),
       ),
