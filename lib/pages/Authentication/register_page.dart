@@ -124,6 +124,7 @@ class _RegisterPageState extends State<RegisterPage> {
               height: 40,
             ),
             TextField(
+              controller: firstName,
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 hintText: 'Firstname',
@@ -138,6 +139,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             const SizedBox(height: 15),
             TextField(
+              controller: lastName,
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 hintText: 'Lastname',
@@ -151,6 +153,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             const SizedBox(height: 15),
             TextField(
+              controller: userName,
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 hintText: 'Username',
@@ -164,6 +167,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             const SizedBox(height: 15),
             TextField(
+              controller: email,
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 hintText: 'Email',
@@ -177,6 +181,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             const SizedBox(height: 15),
             TextField(
+              controller: password,
               obscureText: true,
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
@@ -191,6 +196,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             const SizedBox(height: 15),
             TextField(
+              controller: rollNumber,
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 hintText: 'Roll Number',
