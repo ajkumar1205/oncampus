@@ -1,11 +1,21 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:oncampus/constants/padding.const.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hive/hive.dart';
+import 'package:oncampus/constants/hive.const.dart';
+import 'package:oncampus/models/user.model.dart';
+import 'package:oncampus/services/auth_service.dart';
+
+import '../../constants/padding.const.dart';
 import '../../constants/colors.const.dart';
+import '../Home/main_home_page.dart';
 
 class OTPVerificationPage extends StatefulWidget {
-  const OTPVerificationPage({Key? key}) : super(key: key);
+  const OTPVerificationPage({super.key});
+
+  static const route = "/otp";
 
   @override
   _OTPVerificationPageState createState() => _OTPVerificationPageState();
@@ -23,11 +33,23 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   late Timer _timer;
   int _remainingSeconds = 25;
   bool _canResendOTP = false;
+  final auth = AuthService();
+  final user = Hive.box(config).get(currentUser) as User;
 
   @override
   void initState() {
     super.initState();
     // Start the countdown timer
+
+    log(user.email);
+
+    auth.sendOtp(user.email).then((value) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: value
+              ? Text("Otp sending initiated")
+              : Text("ERROR! Resend OTP")));
+    });
+
     startTimer();
   }
 
@@ -47,32 +69,52 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
     });
   }
 
-  void resendOTP() {
+  void resendOTP() async {
     // Reset timer and restart
-    setState(() {
-      _remainingSeconds = 25;
-      _canResendOTP = false;
-    });
-    startTimer();
 
-    // TODO: Implement actual OTP resend logic
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('OTP Resent')),
-    );
+    final r = await auth.sendOtp(user.email);
+
+    if (r) {
+      setState(() {
+        _remainingSeconds = 30;
+        _canResendOTP = false;
+      });
+      startTimer();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('OTP Resent')),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Unable to send otp')),
+      );
+    }
   }
 
-  void verifyOTP() {
+  void verifyOTP() async {
     // Combine OTP from all controllers
     String otp = otpControllers.map((controller) => controller.text).join();
 
     if (otp.length == 6) {
-      // TODO: Implement OTP verification logic
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Verifying OTP: $otp')),
+        SnackBar(
+            content: Text('Verifying OTP: $otp'), duration: Durations.short4),
       );
+
+      final r = await auth.verifyOtp(user.email, otp);
+
+      if (r) {
+        GoRouter.of(context).go(MainHomePage.route,
+            extra: {'index': 0} as Map<String, dynamic>);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Something went wrong")),
+        );
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please enter complete OTP')),
+        const SnackBar(
+            content: Text('Please enter complete OTP'),
+            duration: Durations.short4),
       );
     }
   }
@@ -96,6 +138,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         titleSpacing: 0,
+        centerTitle: true,
         backgroundColor: Colors.black,
         title: const Text(
           'Enter Verification Code',
@@ -119,18 +162,17 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(6, (index) {
                 return Container(
-                  width: 50,
-                  height: 50,
+                  width: 45,
+                  height: 45,
                   margin: const EdgeInsets.symmetric(horizontal: 5),
                   child: TextField(
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                     controller: otpControllers[index],
                     focusNode: otpFocusNodes[index],
                     textAlign: TextAlign.center,
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.text,
                     inputFormatters: [
                       LengthLimitingTextInputFormatter(1),
-                      FilteringTextInputFormatter.digitsOnly,
                     ],
                     decoration: InputDecoration(
                       filled: true,
@@ -174,21 +216,22 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                     ),
                   ),
                 ),
-                Row(
-                  children: [
-                    const Text(
-                      'Resend OTP in ',
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                    Text(
-                      '00:$_remainingSeconds',
-                      style: TextStyle(
-                        color: kPrimaryColor,
-                        fontWeight: FontWeight.bold,
+                if (_remainingSeconds != 0)
+                  Row(
+                    children: [
+                      const Text(
+                        'Resend OTP in ',
+                        style: TextStyle(color: Colors.grey),
                       ),
-                    ),
-                  ],
-                ),
+                      Text(
+                        '00:$_remainingSeconds',
+                        style: const TextStyle(
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
               ],
             ),
 

@@ -5,6 +5,8 @@ import 'package:oncampus/constants/padding.const.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
+  static const route = "/login";
+
   @override
   State<LoginPage> createState() => _LoginPageState();
 }

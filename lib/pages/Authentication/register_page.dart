@@ -1,11 +1,21 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:oncampus/pages/Authentication/OTPVerification_page.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hive/hive.dart';
+import 'package:http/http.dart';
+import 'package:oncampus/constants/hive.const.dart';
+import 'package:oncampus/models/user.model.dart';
+import 'package:oncampus/pages/Authentication/otp_verification_page.dart';
 import '../../constants/colors.const.dart';
 import '../../constants/padding.const.dart';
+import '../../services/auth_service.dart';
 import 'package:intl/intl.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
+
+  static const route = "/register";
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -13,6 +23,12 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   DateTime? _selectedDate;
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _firstnameController = TextEditingController();
+  final TextEditingController _lastnameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _rollController = TextEditingController();
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -74,6 +90,7 @@ class _RegisterPageState extends State<RegisterPage> {
               height: 40,
             ),
             TextField(
+              controller: _firstnameController,
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 hintText: 'Firstname',
@@ -88,10 +105,11 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             const SizedBox(height: 15),
             TextField(
+              controller: _lastnameController,
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 hintText: 'Lastname',
-                hintStyle: TextStyle(color: Colors.grey),
+                hintStyle: const TextStyle(color: Colors.grey),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0)),
                 focusedBorder: OutlineInputBorder(
@@ -101,10 +119,11 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             const SizedBox(height: 15),
             TextField(
+              controller: _usernameController,
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 hintText: 'Username',
-                hintStyle: TextStyle(color: Colors.grey),
+                hintStyle: const TextStyle(color: Colors.grey),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0)),
                 focusedBorder: OutlineInputBorder(
@@ -114,6 +133,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             const SizedBox(height: 15),
             TextField(
+              controller: _emailController,
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 hintText: 'Email',
@@ -127,6 +147,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             const SizedBox(height: 15),
             TextField(
+              controller: _passwordController,
               obscureText: true,
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
@@ -141,6 +162,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             const SizedBox(height: 15),
             TextField(
+              controller: _rollController,
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 hintText: 'Roll Number',
@@ -184,17 +206,48 @@ class _RegisterPageState extends State<RegisterPage> {
                     backgroundColor: kPrimaryColor,
                     shape: ContinuousRectangleBorder(
                         borderRadius: BorderRadius.circular(15))),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const OTPVerificationPage()));
-                },
+                onPressed: _register,
                 child: const Text("Register",
                     style: TextStyle(color: Colors.black)))
           ],
         ),
       ),
     );
+  }
+
+  void _register() async {
+    final authService = AuthService();
+    try {
+      final val = await authService.register(
+          firstname: _firstnameController.text.trim(),
+          username: _usernameController.text.trim(),
+          lastname: _lastnameController.text.trim(),
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+          dob: DateFormat('yyyy-MM-dd').format(_selectedDate!).toString(),
+          roll: _rollController.text.trim());
+
+      if (val['status'] == 'success') {
+        final box = await Hive.openBox(config);
+
+        final user = User.fromJson(val['data']['user']);
+        await box.put(currentUser, user);
+
+        GoRouter.of(context).go(OTPVerificationPage.route);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(val['message']),
+          ),
+        );
+      }
+    } catch (e) {
+      log(e.toString());
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('An error occurred'),
+        ),
+      );
+    }
   }
 }

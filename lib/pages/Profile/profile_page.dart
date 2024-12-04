@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:http/http.dart';
 import 'package:oncampus/pages/Followers/mainFollowers.dart';
 import 'package:oncampus/pages/Profile/edit_page.dart';
-import '../../constants/colors.const.dart';
-import '../../constants/padding.const.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
+
+import '../../models/user.model.dart';
+import '../../constants/colors.const.dart';
+import '../../constants/padding.const.dart';
+import '../../constants/hive.const.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -23,6 +28,8 @@ class _ProfilePageState extends State<ProfilePage> {
       cropImage(pickedFile);
     }
   }
+
+  final user = Hive.box(config).get(currentUser) as User;
 
   void cropImage(XFile file) async {
     CroppedFile? croppedImage = await ImageCropper().cropImage(

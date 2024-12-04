@@ -11,7 +11,11 @@ import '../../constants/colors.const.dart';
 import '../Profile/profile_page.dart';
 
 class MainHomePage extends StatefulWidget {
-  const MainHomePage({super.key});
+  final int index;
+  const MainHomePage({super.key, this.index = 0});
+  static const route = "/main";
+
+
 
   @override
   State<MainHomePage> createState() => _MainHomePageState();
@@ -34,6 +38,12 @@ class _MainHomePageState extends State<MainHomePage> {
     "",
     "Username",
   ];
+
+  @override
+  void initState() {
+    _selectedScreenIndex = widget.index;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
