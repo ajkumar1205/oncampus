@@ -22,6 +22,12 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  TextEditingController firstName = TextEditingController();
+  TextEditingController lastName = TextEditingController();
+  TextEditingController userName = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController rollNumber = TextEditingController();
   DateTime? _selectedDate;
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _firstnameController = TextEditingController();
@@ -57,7 +63,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   String _formatDate(DateTime? date) {
     return date != null
-        ? DateFormat('dd MMMM yyyy').format(date)
+        ? DateFormat('yyyy-MM-dd').format(date)
         : 'Select Date of Birth';
   }
 
