@@ -26,7 +26,8 @@ final router = GoRouter(
 
     return null;
   },
-  initialLocation: RegisterPage.route,
+  initialLocation: MainHomePage.route,
+  initialExtra: {"index": 0},
   routes: [
     GoRoute(
       path: RegisterPage.route,

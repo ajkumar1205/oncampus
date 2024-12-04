@@ -29,7 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  final user = Hive.box(config).get(currentUser) as User;
+  final user = Hive.box(config).get(currentUser) as User?;
 
   void cropImage(XFile file) async {
     CroppedFile? croppedImage = await ImageCropper().cropImage(

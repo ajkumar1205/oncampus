@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
-import 'package:http/http.dart';
+
 import 'package:oncampus/constants/hive.const.dart';
 import 'package:oncampus/models/user.model.dart';
 import 'package:oncampus/pages/Authentication/otp_verification_page.dart';

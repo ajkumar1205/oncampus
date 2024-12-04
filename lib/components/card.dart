@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:oncampus/constants/padding.const.dart';
 import 'likeButton.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../constants/colors.const.dart';
+import '../components/commentItem.dart';
 
 Widget itemBuilder(BuildContext context, int index) {
   return Container(
@@ -57,21 +60,53 @@ Widget itemBuilder(BuildContext context, int index) {
                 top: BorderSide(color: Colors.white, width: 2),
               ),
             ),
-            child: const Column(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Row(
                   children: [
-                    LikeButton(),
-                    Text(
-                      "user_name",
-                      style: TextStyle(color: Colors.white),
+                    const LikeButton(),
+                    IconButton(
+                      onPressed: () {
+                        showModalBottomSheet(
+                          backgroundColor: kBottomSheetColor,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(25.0)), //
+                          ),
+                          context: context,
+                          builder: (BuildContext context) {
+                            return const CommentBox();
+                          },
+                        );
+                      },
+                      icon: const FaIcon(
+                        FontAwesomeIcons.comments,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.share_outlined,
+                        color: Colors.white,
+                      ),
                     )
+                    // Text(
+                    //   "user_name",
+                    //   style: TextStyle(color: Colors.white),
+                    // )
                   ],
                 ),
-                Text(
-                  "Caption",
-                  style: TextStyle(color: Colors.white),
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Caption",
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: Colors.white),
+                  ),
                 )
               ],
             ),
@@ -80,4 +115,59 @@ Widget itemBuilder(BuildContext context, int index) {
       ],
     ),
   );
+}
+
+class CommentBox extends StatefulWidget {
+  const CommentBox({super.key});
+
+  @override
+  State<CommentBox> createState() => _CommentBoxState();
+}
+
+class _CommentBoxState extends State<CommentBox> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(kDefaultPadding * 2),
+      child: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                return commentItem(context);
+              },
+            ),
+          ),
+          Row(
+            children: [
+              CircleAvatar(),
+              const SizedBox(width: 10),
+              const Expanded(
+                child: TextField(
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: "Add a comment for username..",
+                      hintStyle: TextStyle(color: Colors.grey)),
+                ),
+              ),
+              Container(
+                height: 40,
+                width: 40,
+                decoration: const BoxDecoration(
+                    color: kPrimaryColor, // Background color
+                    shape: BoxShape.circle),
+                child: IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.arrow_upward, color: Colors.white)),
+              )
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 }
