@@ -16,7 +16,7 @@ class _FriendsHomePageState extends State<FriendsHomePage> {
       child: ListView.builder(
         itemCount: 5,
         itemBuilder: (context, index) {
-          return itemBuilder(context, index);
+          return const HomeCard();
         },
       ),
     );

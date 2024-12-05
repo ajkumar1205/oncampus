@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:oncampus/constants/padding.const.dart';
 import 'likeButton.dart';
@@ -5,63 +6,119 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../constants/colors.const.dart';
 import '../components/commentItem.dart';
 
-Widget itemBuilder(BuildContext context, int index) {
-  return Container(
-    padding: const EdgeInsets.all(kDefaultPadding),
-    margin: const EdgeInsets.all(kDefaultPadding * 1.25),
-    width: 330,
-    height: 450,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(12),
-      border: Border.all(
-        color: Colors.white,
-        width: 2,
+class HomeCard extends StatefulWidget {
+  const HomeCard({super.key});
+
+  @override
+  State<HomeCard> createState() => _HomeCardState();
+}
+
+class _HomeCardState extends State<HomeCard> {
+  final List<String> imageUrls = [
+    'https://via.placeholder.com/600x300.png?text=Image+1',
+    'https://via.placeholder.com/600x300.png?text=Image+2',
+    'https://via.placeholder.com/600x300.png?text=Image+3',
+  ];
+
+  final CarouselController _carouselController = CarouselController();
+  int _currentIndex = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.all(10),
+      width: 330,
+      height: 400,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Colors.white,
+          width: 2,
+        ),
+        color: Colors.black54,
       ),
-    ),
-    child: Stack(
-      clipBehavior: Clip.none,
-      children: [
-        Positioned(
-          top: -25,
-          left: -25,
-          child: Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: Colors.white, // Border color
-                width: 2, // Border width
-              ),
-            ),
-            child: const CircleAvatar(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header (Avatar and Name)
+          const Row(
+            children: [
+              CircleAvatar(
                 radius: 25,
                 backgroundColor: Colors.black,
                 child: Icon(
                   Icons.person,
                   color: Colors.white,
                   size: 30,
-                )),
-          ),
-        ),
-        const Positioned(
-          left: 50,
-          top: 5,
-          child: Text(
-            "NAME",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-        ),
-        Positioned(
-          bottom: 71,
-          child: Container(
-            height: 71,
-            width: 290,
-            decoration: const BoxDecoration(
-              border: Border(
-                top: BorderSide(color: Colors.white, width: 2),
+                ),
               ),
+              const SizedBox(width: 10),
+              const Text(
+                "NAME",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+
+          // CarouselSlider
+          CarouselSlider(
+            items: imageUrls.map((url) {
+              return Container(
+                margin: const EdgeInsets.symmetric(horizontal: 2.0),
+                decoration: BoxDecoration(
+                  color: Colors.amber,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10.0),
+                  child: Image.network(
+                    url,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              );
+            }).toList(),
+            options: CarouselOptions(
+              height: 210,
+              aspectRatio: 16 / 9,
+              viewportFraction: 0.9,
+              enlargeCenterPage: true,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  _currentIndex = index;
+                });
+              },
             ),
+          ),
+
+          // Indicators
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: imageUrls.asMap().entries.map((entry) {
+              return Container(
+                width: 8.0,
+                height: 8.0,
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _currentIndex == entry.key
+                      ? Colors.white
+                      : Colors.white.withOpacity(0.4),
+                ),
+              );
+            }).toList(),
+          ),
+
+          // Actions and Caption
+          Expanded(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
@@ -69,10 +126,11 @@ Widget itemBuilder(BuildContext context, int index) {
                     IconButton(
                       onPressed: () {
                         showModalBottomSheet(
-                          backgroundColor: kBottomSheetColor,
+                          backgroundColor: Colors.grey[900],
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(25.0)), //
+                              top: Radius.circular(25.0),
+                            ),
                           ),
                           context: context,
                           builder: (BuildContext context) {
@@ -80,8 +138,8 @@ Widget itemBuilder(BuildContext context, int index) {
                           },
                         );
                       },
-                      icon: const FaIcon(
-                        FontAwesomeIcons.comments,
+                      icon: const Icon(
+                        FontAwesomeIcons.comment,
                         color: Colors.white,
                         size: 20,
                       ),
@@ -92,29 +150,25 @@ Widget itemBuilder(BuildContext context, int index) {
                         Icons.share_outlined,
                         color: Colors.white,
                       ),
-                    )
-                    // Text(
-                    //   "user_name",
-                    //   style: TextStyle(color: Colors.white),
-                    // )
+                    ),
                   ],
                 ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Caption",
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: Colors.white),
+                const Text(
+                  "caption goes here...",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
                   ),
-                )
+                ),
               ],
             ),
           ),
-        )
-      ],
-    ),
-  );
+        ],
+      ),
+    );
+  }
 }
 
 class CommentBox extends StatefulWidget {
