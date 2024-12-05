@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:oncampus/pages/Followers/mainFollowers.dart';
 import 'package:oncampus/pages/Profile/edit_page.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
 
 import '../../models/user.model.dart';
 import '../../constants/colors.const.dart';
@@ -21,55 +21,10 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  File? imageFile;
-  void selectImage(ImageSource source) async {
-    XFile? pickedFile = await ImagePicker().pickImage(source: source);
-    if (pickedFile != null) {
-      cropImage(pickedFile);
-    }
-  }
+  
 
   final user = Hive.box(config).get(currentUser) as User?;
 
-  void cropImage(XFile file) async {
-    CroppedFile? croppedImage = await ImageCropper().cropImage(
-      sourcePath: file.path,
-      aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
-      compressQuality: 20,
-    );
-    if (croppedImage != null) {
-      setState(() {
-        imageFile = File(croppedImage.path);
-      });
-    }
-  }
-
-  void showPhotoOptions() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-              title: const Text("Upload Profile Picture"),
-              content: Column(mainAxisSize: MainAxisSize.min, children: [
-                ListTile(
-                  onTap: () {
-                    Navigator.pop(context);
-                    selectImage(ImageSource.gallery);
-                  },
-                  leading: const Icon(Icons.photo_album),
-                  title: const Text("Select from gallery"),
-                ),
-                ListTile(
-                  onTap: () {
-                    Navigator.pop(context);
-                    selectImage(ImageSource.camera);
-                  },
-                  leading: const Icon(Icons.camera_alt),
-                  title: const Text("Take a photo"),
-                ),
-              ]));
-        });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,33 +38,28 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               Column(
                 children: [
-                  CupertinoButton(
-                    onPressed: () {
-                      showPhotoOptions();
-                    },
-                    padding: const EdgeInsets.all(0),
-                    child: CircleAvatar(
-                      radius: 30,
-                      backgroundColor: Colors.white,
-                      backgroundImage:
-                          (imageFile != null) ? FileImage(imageFile!) : null,
-                      child: (imageFile == null)
-                          ? const Icon(
-                              Icons.person,
-                              size: 30,
-                            )
-                          : null,
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundColor: Colors.white,
+                    child: CachedNetworkImage(
+                      imageUrl: user!.profileUrl != null
+                          ? user!.profileUrl.toString()
+                          : "",
+                      placeholder: (context, url) =>
+                          const CircularProgressIndicator(),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.person, color: Colors.white),
                     ),
                   ),
                   const SizedBox(height: 5),
-                  const Text("Name", style: TextStyle(color: Colors.white)),
+                  Text("${user!.firstname} ${user!.lastname}",
+                      style: const TextStyle(color: Colors.white)),
                   const SizedBox(height: 5),
-                  const Text("Pronouns", style: TextStyle(color: Colors.white)),
+                  Text(user!.bio ?? "",
+                      style: const TextStyle(color: Colors.white)),
                   const SizedBox(height: 5),
-                  const Text("Bio", style: TextStyle(color: Colors.white)),
-                  const SizedBox(height: 5),
-                  const Text("@username",
-                      style: TextStyle(color: Colors.white)),
+                  Text("@${user!.userName}",
+                      style: const TextStyle(color: Colors.white)),
                 ],
               ),
               TextButton(
@@ -132,7 +82,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: const Column(
                   children: [
                     Text("0", style: TextStyle(color: Colors.white)),
-                    Text("Followers", style: TextStyle(color: Colors.white)),
+                    Text("Followers", style: TextStyle(color: Colors.white)), 
                   ],
                 ),
               ),

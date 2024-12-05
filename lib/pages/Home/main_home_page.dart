@@ -119,9 +119,13 @@ class _MainHomePageState extends State<MainHomePage> {
                     icon: Icons.video_call,
                     selected: _selectedScreenIndex == 2,
                     ontap: () {
-                      setState(() {
-                        _selectedScreenIndex = 2;
-                      });
+                      // setState(() {
+                      //   _selectedScreenIndex = 2;
+                      // });
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const VideoDatingPage()));
                     },
                   ),
                   IconBottomBar(

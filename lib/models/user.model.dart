@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 
 part 'user.model.g.dart';
 
@@ -28,12 +29,19 @@ class User {
   @HiveField(7)
   String roll; // New field
 
+  @HiveField(8)
+  String? bio;
+
+  @HiveField(9)
+  String userName;
+
   User({
     required this.id,
     required this.firstname,
     required this.lastname,
     required this.email,
     required this.dob,
+    required this.userName,
     this.profileUrl,
     required this.roll, // Initialize the new field
   });
@@ -42,6 +50,7 @@ class User {
     return User(
       id: json['id'],
       firstname: json['first_name'],
+      userName: json['username'],
       lastname: json['last_name'],
       email: json['email'],
       dob: DateTime.parse(json['dob']),
@@ -54,12 +63,14 @@ class User {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'username': userName,
       'first_name': firstname,
       'last_name': lastname,
       'email': email,
-      'dob': dob.toIso8601String(),
-      'profile_url': profileUrl?.toString(),
-      'roll': roll, // Add the new field
+      'dob': DateFormat('yyyy-MM-dd').format(dob),
+      if (profileUrl != null) 'profile_url': profileUrl?.toString(),
+      'roll': roll, 
+      if (bio != null) 'bio': bio,
     };
   }
 }
