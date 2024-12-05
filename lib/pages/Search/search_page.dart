@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:oncampus/constants/padding.const.dart';
-import 'package:oncampus/pages/Profile/profile_page.dart';
+
 import '../../constants/colors.const.dart';
 
 class SearchPage extends StatefulWidget {

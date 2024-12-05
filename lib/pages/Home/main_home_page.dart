@@ -46,6 +46,7 @@ class _MainHomePageState extends State<MainHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
