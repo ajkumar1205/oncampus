@@ -45,13 +45,17 @@ class _MainHomePageState extends State<MainHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
           titles[_selectedScreenIndex],
-          style: const TextStyle(color: Colors.white),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: screenWidth * 0.05,
+          ),
         ),
         backgroundColor: Colors.black,
         actions: [
@@ -76,8 +80,8 @@ class _MainHomePageState extends State<MainHomePage> {
               icon: const Icon(Icons.chat_bubble_outline_rounded,
                   color: Colors.white)),
           Container(
-            width: 100,
-            height: 50,
+            width: screenWidth * 0.2,
+            height: screenWidth * 0.1,
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/logo.png'),
@@ -93,7 +97,7 @@ class _MainHomePageState extends State<MainHomePage> {
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: Padding(
-              padding: const EdgeInsets.only(left: 5, right: 5),
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

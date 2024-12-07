@@ -11,8 +11,10 @@ class FriendsHomePage extends StatefulWidget {
 class _FriendsHomePageState extends State<FriendsHomePage> {
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Padding(
-      padding: const EdgeInsets.all(25),
+      padding: EdgeInsets.all(screenWidth * 0.03),
       child: ListView.builder(
         itemCount: 5,
         itemBuilder: (context, index) {

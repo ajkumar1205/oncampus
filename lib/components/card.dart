@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:oncampus/constants/padding.const.dart';
+
 import 'likeButton.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../constants/colors.const.dart';
@@ -24,13 +24,15 @@ class _HomeCardState extends State<HomeCard> {
   int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Container(
-      padding: const EdgeInsets.all(8),
-      margin: const EdgeInsets.all(10),
-      width: 330,
-      height: 400,
+      padding: EdgeInsets.all(screenWidth * 0.015),
+      margin: EdgeInsets.all(screenWidth * 0.03),
+      width: screenWidth * 0.85,
+      height: screenHeight * 0.55,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(screenWidth * 0.03),
         border: Border.all(
           color: Colors.white,
           width: 2,
@@ -41,18 +43,18 @@ class _HomeCardState extends State<HomeCard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Header (Avatar and Name)
-          const Row(
+          Row(
             children: [
               CircleAvatar(
-                radius: 25,
+                radius: screenWidth * 0.07,
                 backgroundColor: Colors.black,
-                child: Icon(
+                child: const Icon(
                   Icons.person,
                   color: Colors.white,
                   size: 30,
                 ),
               ),
-              const SizedBox(width: 10),
+              SizedBox(width: screenWidth * 0.03),
               const Text(
                 "NAME",
                 style: TextStyle(
@@ -63,19 +65,19 @@ class _HomeCardState extends State<HomeCard> {
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: screenHeight * 0.02),
 
           // CarouselSlider
           CarouselSlider(
             items: imageUrls.map((url) {
               return Container(
-                margin: const EdgeInsets.symmetric(horizontal: 2.0),
+                margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.005),
                 decoration: BoxDecoration(
                   color: Colors.amber,
-                  borderRadius: BorderRadius.circular(10.0),
+                  borderRadius: BorderRadius.circular(screenWidth * 0.03),
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
+                  borderRadius: BorderRadius.circular(screenWidth * 0.03),
                   child: Image.network(
                     url,
                     fit: BoxFit.cover,
@@ -84,7 +86,7 @@ class _HomeCardState extends State<HomeCard> {
               );
             }).toList(),
             options: CarouselOptions(
-              height: 210,
+              height: screenHeight * 0.3,
               aspectRatio: 16 / 9,
               viewportFraction: 0.9,
               enlargeCenterPage: true,
@@ -101,10 +103,11 @@ class _HomeCardState extends State<HomeCard> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: imageUrls.asMap().entries.map((entry) {
               return Container(
-                width: 8.0,
-                height: 8.0,
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
+                width: screenWidth * 0.02,
+                height: screenWidth * 0.02,
+                margin: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.01,
+                    vertical: screenHeight * 0.01),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: _currentIndex == entry.key
@@ -127,9 +130,9 @@ class _HomeCardState extends State<HomeCard> {
                       onPressed: () {
                         showModalBottomSheet(
                           backgroundColor: Colors.grey[900],
-                          shape: const RoundedRectangleBorder(
+                          shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(25.0),
+                              top: Radius.circular(screenWidth * 0.05),
                             ),
                           ),
                           context: context,
@@ -138,10 +141,10 @@ class _HomeCardState extends State<HomeCard> {
                           },
                         );
                       },
-                      icon: const Icon(
+                      icon: Icon(
                         FontAwesomeIcons.comment,
                         color: Colors.white,
-                        size: 20,
+                        size: screenWidth * 0.05,
                       ),
                     ),
                     IconButton(
@@ -181,8 +184,9 @@ class CommentBox extends StatefulWidget {
 class _CommentBoxState extends State<CommentBox> {
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     return Container(
-      padding: const EdgeInsets.all(kDefaultPadding * 2),
+      padding: EdgeInsets.all(screenWidth * 0.04),
       child: Column(
         children: [
           Expanded(
@@ -195,8 +199,8 @@ class _CommentBoxState extends State<CommentBox> {
           ),
           Row(
             children: [
-              CircleAvatar(),
-              const SizedBox(width: 10),
+              CircleAvatar(radius: screenWidth * 0.05),
+              SizedBox(width: screenWidth * 0.02),
               const Expanded(
                 child: TextField(
                   style: TextStyle(
@@ -209,8 +213,8 @@ class _CommentBoxState extends State<CommentBox> {
                 ),
               ),
               Container(
-                height: 40,
-                width: 40,
+                height: screenWidth * 0.1,
+                width: screenWidth * 0.1,
                 decoration: const BoxDecoration(
                     color: kPrimaryColor, // Background color
                     shape: BoxShape.circle),

@@ -69,23 +69,25 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    final double formFieldHeight = screenHeight * 0.07;
+    final double fieldSpacing = screenHeight * 0.02;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.black,
-      body: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 2 * kDefaultPadding,
-          vertical: 2 * kDefaultPadding,
-        ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 40),
+              SizedBox(height: screenHeight * 0.05),
               Container(
-                width: 100,
-                height: 100,
+                width: screenWidth * 0.30,
+                height: screenHeight * 0.15,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/logo.png'),
@@ -93,100 +95,132 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 40,
-              ),
-              TextField(
-                controller: _firstnameController,
-                style: const TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  hintText: 'Firstname',
-                  hintStyle: const TextStyle(color: Colors.grey),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: kPrimaryColor),
-                      borderRadius: BorderRadius.circular(10.0)),
-                ),
-              ),
-              const SizedBox(height: 15),
-              TextField(
-                controller: _lastnameController,
-                style: const TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  hintText: 'Lastname',
-                  hintStyle: const TextStyle(color: Colors.grey),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0)),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: kPrimaryColor),
-                      borderRadius: BorderRadius.circular(10.0)),
-                ),
-              ),
-              const SizedBox(height: 15),
-              TextField(
-                controller: _usernameController,
-                style: const TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  hintText: 'Username',
-                  hintStyle: const TextStyle(color: Colors.grey),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0)),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: kPrimaryColor),
-                      borderRadius: BorderRadius.circular(10.0)),
-                ),
-              ),
-              const SizedBox(height: 15),
-              TextField(
-                controller: _emailController,
-                style: const TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  hintText: 'Email',
-                  hintStyle: TextStyle(color: Colors.grey),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0)),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: kPrimaryColor),
-                      borderRadius: BorderRadius.circular(10.0)),
-                ),
-              ),
-              const SizedBox(height: 15),
-              TextField(
-                controller: _passwordController,
-                obscureText: true,
-                style: const TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  hintText: 'Password',
-                  hintStyle: TextStyle(color: Colors.grey),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0)),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: kPrimaryColor),
-                      borderRadius: BorderRadius.circular(10.0)),
-                ),
-              ),
-              const SizedBox(height: 15),
-              TextField(
-                controller: _rollController,
-                style: const TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  hintText: 'Roll Number',
-                  hintStyle: TextStyle(color: Colors.grey),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0)),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: kPrimaryColor),
-                      borderRadius: BorderRadius.circular(10.0)),
-                ),
-              ),
-              const SizedBox(height: 15),
+              SizedBox(height: screenHeight * 0.05),
+              // Firstname
+              SizedBox(
+                  height: formFieldHeight,
+                  child: TextFormField(
+                    controller: _firstnameController,
+                    style: const TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      hintText: 'Firstname',
+                      hintStyle: const TextStyle(color: Colors.grey),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: kPrimaryColor),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                  )),
+
+              SizedBox(height: fieldSpacing),
+              // Lastname
+              SizedBox(
+                  height: formFieldHeight,
+                  child: TextFormField(
+                    controller: _lastnameController,
+                    style: const TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      hintText: 'Lastname',
+                      hintStyle: const TextStyle(color: Colors.grey),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: kPrimaryColor),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                  )),
+
+              SizedBox(height: fieldSpacing),
+              // Username
+              SizedBox(
+                  height: formFieldHeight,
+                  child: TextFormField(
+                    controller: _usernameController,
+                    style: const TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      hintText: 'Username',
+                      hintStyle: const TextStyle(color: Colors.grey),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: kPrimaryColor),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                  )),
+              SizedBox(height: fieldSpacing),
+
+              // Email
+              SizedBox(
+                  height: formFieldHeight,
+                  child: TextFormField(
+                    controller: _emailController,
+                    style: const TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      hintText: 'Email',
+                      hintStyle: const TextStyle(color: Colors.grey),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: kPrimaryColor),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                  )),
+              SizedBox(height: fieldSpacing),
+
+              // Password
+              SizedBox(
+                  height: formFieldHeight,
+                  child: TextFormField(
+                    controller: _passwordController,
+                    obscureText: true,
+                    style: const TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      hintText: 'Password',
+                      hintStyle: const TextStyle(color: Colors.grey),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: kPrimaryColor),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                  )),
+              SizedBox(height: fieldSpacing),
+
+              // Roll Number
+              SizedBox(
+                  height: formFieldHeight,
+                  child: TextFormField(
+                    controller: _rollController,
+                    style: const TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      hintText: 'Roll Number',
+                      hintStyle: const TextStyle(color: Colors.grey),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: kPrimaryColor),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                  )),
+              SizedBox(height: fieldSpacing),
               GestureDetector(
                 onTap: () => _selectDate(context),
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  height: formFieldHeight,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey),
                     borderRadius: BorderRadius.circular(10),
@@ -197,7 +231,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       Text(
                         _formatDate(_selectedDate),
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: screenHeight * 0.02,
                           color: _selectedDate != null
                               ? Colors.white
                               : Colors.grey,
@@ -208,10 +242,15 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+
+              SizedBox(height: fieldSpacing),
               TextButton(
                   style: TextButton.styleFrom(
                       backgroundColor: kPrimaryColor,
+                      padding: EdgeInsets.symmetric(
+                        vertical: formFieldHeight * 0.3,
+                        horizontal: screenWidth * 0.1,
+                      ),
                       shape: ContinuousRectangleBorder(
                           borderRadius: BorderRadius.circular(15))),
                   onPressed: _register,

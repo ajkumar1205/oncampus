@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:oncampus/constants/padding.const.dart';
 
+import '../../utils/extensions.dart';
 import '../../constants/colors.const.dart';
 
 class SearchPage extends StatefulWidget {
@@ -14,8 +15,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:
-          const EdgeInsets.only(left: kDefaultPadding, right: kDefaultPadding),
+      padding: EdgeInsets.symmetric(horizontal: 5.w),
       child: Column(
         children: [
           TextField(
@@ -39,10 +39,10 @@ class _SearchPageState extends State<SearchPage> {
           const SizedBox(height: 20),
           Expanded(
             child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 2.w,
+                  mainAxisSpacing: 2.w,
                 ),
                 itemCount: 10,
                 itemBuilder: (context, index) {
@@ -77,10 +77,10 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
         backgroundColor: Colors.black,
         body: Padding(
-          padding: const EdgeInsets.only(
-            left: kDefaultPadding,
-            right: kDefaultPadding,
-            top: kDefaultPadding * 4,
+          padding: EdgeInsets.only(
+            left: 5.w,
+            right: 5.w,
+            top: 10.w,
           ),
           child: Column(
             children: [
@@ -151,8 +151,7 @@ class _ProfileScreenState extends State<SearchProfileScreen> {
                 icon: const Icon(Icons.more_vert, color: Colors.white))
           ]),
       body: Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: kDefaultPadding * 2, vertical: kDefaultPadding),
+        padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -160,7 +159,7 @@ class _ProfileScreenState extends State<SearchProfileScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CircleAvatar(
-                  radius: 30,
+                  radius: 4.h,
                 ),
                 TextButton(
                   onPressed: () {},

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:http/http.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import '../../utils/extensions.dart';
 import 'package:oncampus/pages/Followers/mainFollowers.dart';
 import 'package:oncampus/pages/Profile/edit_page.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:io';
 
 import '../../models/user.model.dart';
 import '../../constants/colors.const.dart';
@@ -21,10 +19,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  
-
   final user = Hive.box(config).get(currentUser) as User?;
-
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +34,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Column(
                 children: [
                   CircleAvatar(
-                    radius: 30,
+                    radius: 10.w,
                     backgroundColor: Colors.white,
                     child: CachedNetworkImage(
                       imageUrl: user!.profileUrl != null
@@ -53,21 +48,27 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   const SizedBox(height: 5),
                   Text("${user!.firstname} ${user!.lastname}",
-                      style: const TextStyle(color: Colors.white)),
+                      style: TextStyle(color: Colors.white, fontSize: 5.w)),
                   const SizedBox(height: 5),
-                  Text(user!.bio ?? "",
-                      style: const TextStyle(color: Colors.white)),
-                  const SizedBox(height: 5),
+                  if (user!.bio != null)
+                    Text(user!.bio ?? "",
+                        style: TextStyle(
+                            color: Colors.white, fontSize: 5.w * 0.8)),
+                  if (user!.bio != null) const SizedBox(height: 5),
                   Text("@${user!.userName}",
-                      style: const TextStyle(color: Colors.white)),
+                      style:
+                          TextStyle(color: Colors.white, fontSize: 5.w * 0.9)),
                 ],
               ),
               TextButton(
                 onPressed: () {},
-                child: const Column(
+                child: Column(
                   children: [
-                    Text("0", style: TextStyle(color: Colors.white)),
-                    Text("Posts", style: TextStyle(color: Colors.white)),
+                    Text("0",
+                        style: TextStyle(color: Colors.white, fontSize: 5.w)),
+                    Text("Posts",
+                        style: TextStyle(
+                            color: Colors.white, fontSize: 5.w * 0.8)),
                   ],
                 ),
               ),
@@ -79,10 +80,13 @@ class _ProfilePageState extends State<ProfilePage> {
                           builder: (context) =>
                               const MainFollowersPage(index: 0)))
                 },
-                child: const Column(
+                child: Column(
                   children: [
-                    Text("0", style: TextStyle(color: Colors.white)),
-                    Text("Followers", style: TextStyle(color: Colors.white)), 
+                    Text("0",
+                        style: TextStyle(color: Colors.white, fontSize: 5.w)),
+                    Text("Followers",
+                        style: TextStyle(
+                            color: Colors.white, fontSize: 5.w * 0.8)),
                   ],
                 ),
               ),
@@ -93,10 +97,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       MaterialPageRoute(
                           builder: (context) => MainFollowersPage(index: 1)))
                 },
-                child: const Column(
+                child: Column(
                   children: [
-                    Text("0", style: TextStyle(color: Colors.white)),
-                    Text("Following", style: TextStyle(color: Colors.white)),
+                    Text("0",
+                        style: TextStyle(color: Colors.white, fontSize: 5.w)),
+                    Text("Following",
+                        style: TextStyle(
+                            color: Colors.white, fontSize: 5.w * 0.8)),
                   ],
                 ),
               ),

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../constants/padding.const.dart';
 
 import '../components/likeButton.dart';
 
 Widget commentItem(BuildContext context) {
+  final screenWidth = MediaQuery.of(context).size.width;
   return Padding(
-    padding: const EdgeInsets.only(bottom: kDefaultPadding * 2),
+    padding: EdgeInsets.only(bottom: screenWidth * 0.04),
     child: Column(
       children: [
         Row(
@@ -16,38 +16,45 @@ Widget commentItem(BuildContext context) {
                 shape: BoxShape.circle,
                 border: Border.all(
                   color: Colors.white, // Border color
-                  width: 2, // Border width
+                  width: screenWidth * 0.005, // Border width
                 ),
               ),
-              child: const CircleAvatar(
-                  radius: 20,
+              child: CircleAvatar(
+                  radius: screenWidth * 0.06,
                   backgroundColor: Colors.black,
                   child: Icon(
                     Icons.person,
                     color: Colors.white,
-                    size: 30,
+                    size: screenWidth * 0.08,
                   )),
             ),
-            const SizedBox(width: 10),
-            const Expanded(
+            SizedBox(width: screenWidth * 0.03),
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("username", style: TextStyle(color: Colors.white)),
-                  SizedBox(height: 5),
+                  Text("username",
+                      style: TextStyle(
+                          color: Colors.white, fontSize: screenWidth * 0.04)),
+                  SizedBox(height: screenWidth * 0.02),
                   Text(
                     "The quick brown fox jumps over the lazy dog. Underneath the pale moonlight, shadows danced across the forest floor, whispering secrets only the wind could understand. ",
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: screenWidth * 0.035,
+                    ),
                   ),
                 ],
               ),
             ),
-            const Column(
+            Column(
               children: [
-                LikeButton(),
-                Text("456", style: TextStyle(color: Colors.white))
+                const LikeButton(),
+                Text("456",
+                    style: TextStyle(
+                        color: Colors.white, fontSize: screenWidth * 0.04))
               ],
             )
           ],

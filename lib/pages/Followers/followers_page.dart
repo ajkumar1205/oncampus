@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:oncampus/components/list.dart';
-import 'package:oncampus/constants/padding.const.dart';
+
+import '../../utils/extensions.dart';
 
 class FollowersPage extends StatefulWidget {
   const FollowersPage({super.key});
@@ -13,7 +14,7 @@ class _FollowersPageState extends State<FollowersPage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: kDefaultPadding),
+      padding: EdgeInsets.only(top: 5.w),
       child: ListView.builder(
         itemCount: 3,
         itemBuilder: (context, index) {
@@ -21,6 +22,5 @@ class _FollowersPageState extends State<FollowersPage> {
         },
       ),
     );
-    ;
   }
 }

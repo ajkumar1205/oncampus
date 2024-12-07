@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:oncampus/constants/padding.const.dart';
-
 import 'followers_page.dart';
 import 'following_page.dart';
-
+import '../../utils/extensions.dart';
 import '../../constants/colors.const.dart';
 
 class MainFollowersPage extends StatefulWidget {
@@ -34,18 +32,19 @@ class _MainFollowersPageState extends State<MainFollowersPage> {
         backgroundColor: Colors.black,
         title: const Text("username", style: TextStyle(color: Colors.white)),
         leading: IconButton(
-            onPressed: () => {Navigator.pop(context)},
-            icon: const Icon(Icons.arrow_back, color: Colors.white, size: 25)),
+          onPressed: () => {Navigator.pop(context)},
+          icon: const Icon(Icons.arrow_back, color: Colors.white, size: 25),
+        ),
       ),
       body: Container(
-        padding: const EdgeInsets.all(kDefaultPadding),
+        padding: EdgeInsets.all(1.5.w),
         child: Column(
           children: [
             SizedBox(
-              height: 40,
+              height: 6.h,
               width: MediaQuery.of(context).size.width,
               child: Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10),
+                padding: EdgeInsets.symmetric(horizontal: 5.w),
                 child: Row(
                   children: [
                     Expanded(
@@ -76,18 +75,6 @@ class _MainFollowersPageState extends State<MainFollowersPage> {
                 ),
               ),
             ),
-            // const Row(
-            //   children: [
-            //     Icon(Icons.search),
-            //     TextField(
-            //       style: TextStyle(color: Colors.white),
-            //       decoration: InputDecoration(
-            //         hintText: "Search",
-            //         hintStyle: TextStyle(color: Colors.grey),
-            //       ),
-            //     )
-            //   ],
-            // ),
             Expanded(
               child: pages.elementAt(_selectedIndex),
             ),
@@ -119,6 +106,7 @@ class TopBar extends StatelessWidget {
         text,
         style: TextStyle(
           color: selected ? Colors.black : Colors.white,
+          fontWeight: selected ? FontWeight.bold : FontWeight.normal,
         ),
       ),
     );

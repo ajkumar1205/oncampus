@@ -49,7 +49,10 @@ class PostService {
   String getAccessToken() {
     if (Hive.isBoxOpen(config)) {
       final box = Hive.box(config);
-      final token = box.get('access') as String;
+      final token = box.get('access') as String?;
+      if (token == null) {
+        throw Exception("Token is null");
+      }
       return token;
     } else {
       throw Exception('Hive box is not open');
@@ -75,7 +78,8 @@ class PostService {
         );
 
         if (response.statusCode != 200) {
-          log("Error Occured While Uploading images", error: response.statusCode);
+          log("Error Occured While Uploading images",
+              error: response.statusCode);
           return false;
         }
       }

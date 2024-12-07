@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../components/notes.dart';
+import 'package:oncampus/utils/extensions.dart';
 
 class PersonalNotesPage extends StatefulWidget {
   const PersonalNotesPage({super.key});
@@ -12,7 +13,7 @@ class _PersonalNotesPageState extends State<PersonalNotesPage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(25),
+      padding: EdgeInsets.all(3.w),
       child: ListView.builder(
         itemCount: 5,
         itemBuilder: (context, index) {
@@ -20,6 +21,5 @@ class _PersonalNotesPageState extends State<PersonalNotesPage> {
         },
       ),
     );
-    ;
   }
 }
