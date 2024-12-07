@@ -134,7 +134,7 @@ class _MainHomePageState extends State<MainHomePage> {
                     },
                   ),
                   IconBottomBar(
-                    icon: Icons.notes,
+                    icon: Icons.menu_book,
                     selected: _selectedScreenIndex == 3,
                     ontap: () {
                       setState(() {
