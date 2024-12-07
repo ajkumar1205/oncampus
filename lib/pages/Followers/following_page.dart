@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../components/list.dart';
-import '../../constants/padding.const.dart';
+import '../../utils/extensions.dart';
 
 class FollowingPage extends StatefulWidget {
   const FollowingPage({super.key});
@@ -13,7 +13,7 @@ class _FollowingPageState extends State<FollowingPage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: kDefaultPadding),
+      padding: EdgeInsets.only(top: 5.w),
       child: ListView.builder(
         itemCount: 2,
         itemBuilder: (context, index) {
@@ -21,6 +21,5 @@ class _FollowingPageState extends State<FollowingPage> {
         },
       ),
     );
-    ;
   }
 }

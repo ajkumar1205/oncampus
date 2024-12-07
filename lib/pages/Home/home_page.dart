@@ -19,15 +19,16 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     return Container(
       color: Colors.black,
       child: Column(
         children: [
           SizedBox(
-            height: 50,
+            height: screenWidth * 0.15,
             width: MediaQuery.of(context).size.width,
             child: Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15),
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
               child: Row(
                 children: [
                   Expanded(
@@ -88,6 +89,8 @@ class TopBar extends StatelessWidget {
         text,
         style: TextStyle(
           color: selected ? Colors.black : Colors.white,
+          fontWeight: selected ? FontWeight.bold : FontWeight.normal,
+          fontSize: MediaQuery.of(context).size.width * 0.045,
         ),
       ),
     );

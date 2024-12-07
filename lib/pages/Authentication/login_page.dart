@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:oncampus/constants/colors.const.dart';
-import 'package:oncampus/constants/padding.const.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,12 +13,14 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
         color: Colors.black,
-        padding: const EdgeInsets.symmetric(
-          horizontal: 2 * kDefaultPadding,
-          vertical: 2 * kDefaultPadding,
+        padding: EdgeInsets.symmetric(
+          horizontal: screenWidth * 0.05,
+          vertical: screenHeight * 0.05,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -27,8 +28,8 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             Expanded(child: Container()),
             Container(
-              width: 200,
-              height: 200,
+              width: screenWidth * 0.5,
+              height: screenWidth * 0.5,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/logo.png'),
@@ -37,44 +38,55 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             // Expanded(child: Container()),
-            const SizedBox(
-              height: 40,
-            ),
+            SizedBox(height: screenHeight * 0.05),
             TextField(
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: screenWidth * 0.04,
+              ),
               decoration: InputDecoration(
                 hintText: 'Username or email',
+                hintStyle: TextStyle(fontSize: screenWidth * 0.04),
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.0)),
+                    borderRadius: BorderRadius.circular(screenWidth * 0.05)),
                 filled: true,
                 fillColor: kPrimaryColor,
               ),
             ),
-            const SizedBox(height: 15),
+            SizedBox(height: screenHeight * 0.02),
             TextField(
               obscureText: true,
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: screenWidth * 0.04,
+              ),
               decoration: InputDecoration(
                 hintText: 'Enter  your Password',
+                hintStyle: TextStyle(fontSize: screenWidth * 0.04),
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.0)),
+                    borderRadius: BorderRadius.circular(screenWidth * 0.05)),
                 filled: true,
                 fillColor: kPrimaryColor,
               ),
             ),
+            SizedBox(height: screenHeight * 0.02),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
+                Text(
                   "doesn't have account?",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: screenWidth * 0.035,
+                  ),
                 ),
                 TextButton(
                     onPressed: () {},
-                    child: const Text(
+                    child: Text(
                       "Login",
                       style: TextStyle(
                         color: Colors.white,
+                        fontSize: screenWidth * 0.035,
                       ),
                     ))
               ],
@@ -82,10 +94,11 @@ class _LoginPageState extends State<LoginPage> {
             Expanded(child: Container()),
             TextButton(
               onPressed: () {},
-              child: const Text(
+              child: Text(
                 "Continue without login",
                 style: TextStyle(
                   color: Colors.white,
+                  fontSize: screenWidth * 0.035,
                 ),
               ),
             )

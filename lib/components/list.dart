@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:oncampus/constants/colors.const.dart';
-import 'package:oncampus/constants/padding.const.dart';
 
 Widget listItemBuilder(BuildContext context, int index) {
+  final screenWidth = MediaQuery.of(context).size.width;
   return ListTile(
-    title: const Text("username", style: TextStyle(color: Colors.white)),
-    subtitle: const Text("name", style: TextStyle(color: Colors.white)),
+    title: Text("username",
+        style: TextStyle(color: Colors.white, fontSize: screenWidth * 0.045)),
+    subtitle: Text("name",
+        style: TextStyle(color: Colors.white, fontSize: screenWidth * 0.035)),
     leading: Container(
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(
           color: Colors.white, // Border color
-          width: 2, // Border width
+          width: screenWidth * 0.005, // Border width
         ),
       ),
-      child: const CircleAvatar(
-          radius: 20,
+      child: CircleAvatar(
+          radius: screenWidth * 0.06,
           backgroundColor: Colors.black,
           child: Icon(
             Icons.person,
             color: Colors.white,
-            size: 30,
+            size: screenWidth * 0.08,
           )),
     ),
     trailing: Row(
@@ -29,22 +31,25 @@ Widget listItemBuilder(BuildContext context, int index) {
         TextButton(
             onPressed: () {},
             style: TextButton.styleFrom(
-              side: const BorderSide(color: kPrimaryColor, width: 1),
+              side:
+                  BorderSide(color: kPrimaryColor, width: screenWidth * 0.003),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10), // Rounded corners
+                borderRadius: BorderRadius.circular(
+                    screenWidth * 0.02), // Rounded corners
               ),
             ),
-            child: const Text(
+            child: Text(
               "Message",
-              style: TextStyle(color: Colors.white),
+              style:
+                  TextStyle(color: Colors.white, fontSize: screenWidth * 0.035),
             )),
         IconButton(
           onPressed: () {
             showModalBottomSheet(
               backgroundColor: kBottomSheetColor,
-              shape: const RoundedRectangleBorder(
-                borderRadius:
-                    BorderRadius.vertical(top: Radius.circular(25.0)), //
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(screenWidth * 0.06)), //
               ),
               context: context,
               builder: (BuildContext context) {
@@ -54,10 +59,8 @@ Widget listItemBuilder(BuildContext context, int index) {
               },
             );
           },
-          icon: const Icon(
-            Icons.more_vert,
-            color: Colors.white,
-          ),
+          icon: Icon(Icons.more_vert,
+              color: Colors.white, size: screenWidth * 0.07),
         ),
       ],
     ),
@@ -69,16 +72,25 @@ class RemoveFollowerSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     return Container(
-      height: 160,
-      padding: const EdgeInsets.all(kDefaultPadding * 2),
+      height: screenWidth * 0.41,
+      padding: EdgeInsets.all(screenWidth * 0.04),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              CircleAvatar(),
-              SizedBox(width: 15),
+              CircleAvatar(
+                radius: screenWidth * 0.06,
+                backgroundColor: Colors.black,
+                child: Icon(
+                  Icons.person,
+                  color: Colors.white,
+                  size: screenWidth * 0.08,
+                ),
+              ),
+              SizedBox(width: screenWidth * 0.04),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,14 +98,16 @@ class RemoveFollowerSection extends StatelessWidget {
                     Text(
                       "Remove Follower?",
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: screenWidth * 0.045),
                     ),
+                    SizedBox(height: screenWidth * 0.01),
                     Text(
                       "We won't tell username they removed from your followers",
                       style: TextStyle(
                         color: Colors.grey,
+                        fontSize: screenWidth * 0.035,
                       ),
                     ),
                   ],
@@ -101,13 +115,14 @@ class RemoveFollowerSection extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: screenWidth * 0.03),
           TextButton(
             onPressed: () {},
-            child: const Text(
+            child: Text(
               "Remove",
               style: TextStyle(
                 color: Colors.red,
+                fontSize: screenWidth * 0.04,
               ),
             ),
           ),
@@ -122,57 +137,63 @@ class FollowingSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     return Container(
-      height: 300,
-      padding: const EdgeInsets.all(kDefaultPadding * 2),
+      height: screenWidth * 0.8,
+      padding: EdgeInsets.all(screenWidth * 0.04),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              CircleAvatar(),
-              SizedBox(width: 15),
-              Text("username", style: TextStyle(color: Colors.white))
+              CircleAvatar(
+                radius: screenWidth * 0.06,
+                backgroundColor: Colors.black,
+                child: Icon(
+                  Icons.person,
+                  color: Colors.white,
+                  size: screenWidth * 0.08,
+                ),
+              ),
+              SizedBox(width: screenWidth * 0.04),
+              Text("username",
+                  style: TextStyle(
+                      color: Colors.white, fontSize: screenWidth * 0.045))
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: screenWidth * 0.03),
           TextButton(
             onPressed: () {},
-            child: const Text(
+            child: Text(
               "Manage notifications",
-              style: TextStyle(
-                color: Colors.white,
-              ),
+              style:
+                  TextStyle(color: Colors.white, fontSize: screenWidth * 0.04),
             ),
           ),
           const SizedBox(height: 5),
           TextButton(
             onPressed: () {},
-            child: const Text(
+            child: Text(
               "See shared activity",
-              style: TextStyle(
-                color: Colors.white,
-              ),
+              style:
+                  TextStyle(color: Colors.white, fontSize: screenWidth * 0.04),
             ),
           ),
           const SizedBox(height: 5),
           TextButton(
             onPressed: () {},
-            child: const Text(
+            child: Text(
               "Mute",
-              style: TextStyle(
-                color: Colors.white,
-              ),
+              style:
+                  TextStyle(color: Colors.white, fontSize: screenWidth * 0.04),
             ),
           ),
           const SizedBox(height: 5),
           TextButton(
             onPressed: () {},
-            child: const Text(
+            child: Text(
               "Unfollow",
-              style: TextStyle(
-                color: Colors.red,
-              ),
+              style: TextStyle(color: Colors.red, fontSize: screenWidth * 0.04),
             ),
           ),
         ],

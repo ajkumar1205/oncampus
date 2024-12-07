@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:oncampus/constants/padding.const.dart";
+import '../../utils/extensions.dart';
 import '../../constants/colors.const.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -84,8 +85,8 @@ class _EditPageState extends State<EditPage> {
           ),
           actions: [
             Container(
-              width: 100,
-              height: 50,
+              width: 27.w,
+              height: 9.h,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/logo1.png'),
@@ -106,14 +107,14 @@ class _EditPageState extends State<EditPage> {
                   },
                   padding: const EdgeInsets.all(0),
                   child: CircleAvatar(
-                    radius: 50,
+                    radius: 15.w,
                     backgroundColor: Colors.white,
                     backgroundImage:
                         (imageFile != null) ? FileImage(imageFile!) : null,
                     child: (imageFile == null)
-                        ? const Icon(
+                        ? Icon(
                             Icons.person,
-                            size: 50,
+                            size: 15.w,
                           )
                         : null,
                   ),
@@ -169,20 +170,24 @@ class _EditPageState extends State<EditPage> {
                     );
                   },
                 ),
-                const SizedBox(height: 10),
-                TextButton(
-                    onPressed: () {},
-                    style: TextButton.styleFrom(
-                      backgroundColor: kPrimaryColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0)),
-                    ),
-                    child: const Text(
-                      "Save changes",
-                      style: TextStyle(
-                        color: Colors.black,
+                const SizedBox(height: 30),
+                SizedBox(
+                  width: 70.w,
+                  height: 6.h,
+                  child: TextButton(
+                      onPressed: () {},
+                      style: TextButton.styleFrom(
+                        backgroundColor: kPrimaryColor,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0)),
                       ),
-                    ))
+                      child: const Text(
+                        "Save changes",
+                        style: TextStyle(
+                          color: Colors.black,
+                        ),
+                      )),
+                )
               ],
             ),
           ),

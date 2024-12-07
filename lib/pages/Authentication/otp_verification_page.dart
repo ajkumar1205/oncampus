@@ -7,8 +7,8 @@ import 'package:hive/hive.dart';
 import 'package:oncampus/constants/hive.const.dart';
 import 'package:oncampus/models/user.model.dart';
 import 'package:oncampus/services/auth_service.dart';
+import 'package:oncampus/utils/extensions.dart';
 
-import '../../constants/padding.const.dart';
 import '../../constants/colors.const.dart';
 import '../Home/main_home_page.dart';
 
@@ -134,6 +134,8 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -146,8 +148,10 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: kDefaultPadding * 1.5, vertical: kDefaultPadding * 2),
+        padding: EdgeInsets.symmetric(
+          horizontal: screenWidth * 0.08,
+          vertical: screenHeight * 0.05,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -161,46 +165,49 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(6, (index) {
-                return Container(
-                  width: 45,
-                  height: 45,
-                  margin: const EdgeInsets.symmetric(horizontal: 5),
-                  child: TextField(
-                    style: const TextStyle(color: Colors.white),
-                    controller: otpControllers[index],
-                    focusNode: otpFocusNodes[index],
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.text,
-                    inputFormatters: [
-                      LengthLimitingTextInputFormatter(1),
-                    ],
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: kBottomSheetColor,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: kPrimaryColor),
-                          borderRadius: BorderRadius.circular(10.0)),
+                return Flexible(
+                  flex: 1,
+                  child: Container(
+                    width: 12.w,
+                    height: 12.w,
+                    margin: const EdgeInsets.symmetric(horizontal: 5),
+                    child: TextField(
+                      style: const TextStyle(color: Colors.white),
+                      controller: otpControllers[index],
+                      focusNode: otpFocusNodes[index],
+                      textAlign: TextAlign.center,
+                      keyboardType: TextInputType.text,
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(1),
+                      ],
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: kBottomSheetColor,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: kPrimaryColor),
+                            borderRadius: BorderRadius.circular(10.0)),
+                      ),
+                      onChanged: (value) {
+                        // Move focus to next input when a digit is entered
+                        if (value.length == 1 && index < 5) {
+                          FocusScope.of(context)
+                              .requestFocus(otpFocusNodes[index + 1]);
+                        }
+                        // Move focus back if deleted
+                        if (value.isEmpty && index > 0) {
+                          FocusScope.of(context)
+                              .requestFocus(otpFocusNodes[index - 1]);
+                        }
+                      },
                     ),
-                    onChanged: (value) {
-                      // Move focus to next input when a digit is entered
-                      if (value.length == 1 && index < 5) {
-                        FocusScope.of(context)
-                            .requestFocus(otpFocusNodes[index + 1]);
-                      }
-                      // Move focus back if deleted
-                      if (value.isEmpty && index > 0) {
-                        FocusScope.of(context)
-                            .requestFocus(otpFocusNodes[index - 1]);
-                      }
-                    },
                   ),
                 );
               }),
             ),
 
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Resend OTP and Timer
             Row(
@@ -235,17 +242,22 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
               ],
             ),
 
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Center(
-              child: TextButton(
-                  style: TextButton.styleFrom(
-                      backgroundColor: kPrimaryColor,
-                      shape: ContinuousRectangleBorder(
-                          borderRadius: BorderRadius.circular(15))),
-                  onPressed: verifyOTP,
-                  child: const Text("Verify",
-                      style: TextStyle(color: Colors.black))),
-            )
+                child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: kPrimaryColor,
+                minimumSize: Size(screenWidth * 0.8, 50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+              onPressed: verifyOTP,
+              child: const Text(
+                "Verify",
+                style: TextStyle(color: Colors.black),
+              ),
+            )),
           ],
         ),
       ),

@@ -11,8 +11,10 @@ class AllHomePage extends StatefulWidget {
 class _AllHomePageState extends State<AllHomePage> {
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Padding(
-      padding: const EdgeInsets.all(25),
+      padding: EdgeInsets.all(screenWidth * 0.06),
       child: ListView.builder(
         itemCount: 1,
         itemBuilder: (context, index) {
@@ -20,6 +22,5 @@ class _AllHomePageState extends State<AllHomePage> {
         },
       ),
     );
-    ;
   }
 }

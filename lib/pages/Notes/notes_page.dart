@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:oncampus/pages/Notes/all_notes_page.dart';
 import 'package:oncampus/pages/Notes/personal_notes_page.dart';
 import '../../constants/colors.const.dart';
+import '../../utils/extensions.dart';
 
 class NotesPage extends StatefulWidget {
   const NotesPage({super.key});
@@ -18,15 +19,19 @@ class _NotesPageState extends State<NotesPage> {
   ];
   @override
   Widget build(BuildContext context) {
+    final horizontalPadding = 5.w;
+    final topBarHeight = 7.h;
+
+    final buttonTextSize = 4.w;
     return Container(
       color: Colors.black,
       child: Column(
         children: [
           SizedBox(
-            height: 50,
-            width: MediaQuery.of(context).size.width,
+            height: topBarHeight,
+            width: 100.w,
             child: Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15),
+              padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
               child: Row(
                 children: [
                   Expanded(
@@ -39,8 +44,10 @@ class _NotesPageState extends State<NotesPage> {
                           _selectedIndex = 0;
                         });
                       },
+                      textSize: buttonTextSize,
                     ),
                   ),
+                  const SizedBox(width: 10),
                   Expanded(
                     flex: 1,
                     child: TopBar(
@@ -51,6 +58,7 @@ class _NotesPageState extends State<NotesPage> {
                           _selectedIndex = 1;
                         });
                       },
+                      textSize: buttonTextSize,
                     ),
                   ),
                 ],
@@ -70,23 +78,29 @@ class TopBar extends StatelessWidget {
   final String text;
   final bool selected;
   final Function() ontap;
+  final double textSize;
 
   const TopBar(
       {super.key,
       required this.text,
       required this.ontap,
-      required this.selected});
+      required this.selected,
+      required this.textSize});
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: ontap,
       style: TextButton.styleFrom(
-          backgroundColor: selected ? kPrimaryColor : Colors.black),
+        backgroundColor: selected ? kPrimaryColor : Colors.black,
+        padding: EdgeInsets.symmetric(vertical: textSize * 0.6),
+      ),
       child: Text(
         text,
         style: TextStyle(
           color: selected ? Colors.black : Colors.white,
+          fontWeight: selected ? FontWeight.bold : FontWeight.normal,
+          fontSize: textSize,
         ),
       ),
     );

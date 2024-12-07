@@ -51,7 +51,7 @@ class PostService {
       final box = Hive.box(config);
       final token = box.get('access') as String?;
       if (token == null) {
-        throw Exception('Token is null');
+        throw Exception("Token is null");
       }
       return token;
     } else {
@@ -78,7 +78,8 @@ class PostService {
         );
 
         if (response.statusCode != 200) {
-          log("Error Occured While Uploading images", error: response.statusCode);
+          log("Error Occured While Uploading images",
+              error: response.statusCode);
           return false;
         }
       }

@@ -4,8 +4,9 @@ import 'package:oncampus/constants/padding.const.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import '../../utils/extensions.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter_isolate/flutter_isolate.dart';
+
 import 'package:oncampus/services/post_service.dart';
 
 class CreatepostPage extends StatefulWidget {
@@ -18,7 +19,7 @@ class CreatepostPage extends StatefulWidget {
 class _CreatepostPageState extends State<CreatepostPage> {
   String? _selectedOption = 'Public';
   List<File> imageFiles = [];
-  final CarouselController _carouselController = CarouselController();
+
   int _currentIndex = 0;
 
   final postService = PostService();
@@ -142,7 +143,7 @@ class _CreatepostPageState extends State<CreatepostPage> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.all(kDefaultPadding * 2),
+          padding: EdgeInsets.all(5.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -189,8 +190,8 @@ class _CreatepostPageState extends State<CreatepostPage> {
               ),
               const SizedBox(height: 20),
               SizedBox(
-                height: 300,
-                width: 300,
+                height: 35.h,
+                width: 80.w,
                 child: Column(
                   children: [
                     CarouselSlider.builder(
@@ -202,8 +203,8 @@ class _CreatepostPageState extends State<CreatepostPage> {
                               showPhotoOptions();
                             },
                             child: Container(
-                              width: 300,
-                              height: 300,
+                              width: 80.w,
+                              height: 35.h,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(color: Colors.white),
@@ -223,7 +224,7 @@ class _CreatepostPageState extends State<CreatepostPage> {
                         }
                       },
                       options: CarouselOptions(
-                        height: 250,
+                        height: 30.h,
                         enableInfiniteScroll: false,
                         enlargeCenterPage: true,
                         onPageChanged: (index, reason) {
@@ -256,7 +257,7 @@ class _CreatepostPageState extends State<CreatepostPage> {
               ),
               const SizedBox(height: 20),
               SizedBox(
-                width: 300,
+                width: 80.w,
                 child: TextField(
                   maxLines: 3,
                   controller: textController,
@@ -280,8 +281,8 @@ class _CreatepostPageState extends State<CreatepostPage> {
 
   Widget post(File? imageFile, int index) {
     return Container(
-      width: 300,
-      height: 300,
+      width: 80.w,
+      height: 35.h,
       margin: const EdgeInsets.only(right: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
