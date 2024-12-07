@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return MaterialApp.router(
-      title: 'ONCAMPUS',
+      title: 'onCampus',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),

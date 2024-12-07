@@ -10,7 +10,7 @@ import 'package:oncampus/constants/hive.const.dart';
 class PostService {
   Future<bool> createPost(String text, bool public, List<File> images) async {
     try {
-      final url = "$baseUrl/posts/create";
+      const url = "$baseUrl/posts/create";
       final access = getAccessToken();
       final response = await http.post(Uri.parse(url),
           headers: <String, String>{
@@ -49,7 +49,10 @@ class PostService {
   String getAccessToken() {
     if (Hive.isBoxOpen(config)) {
       final box = Hive.box(config);
-      final token = box.get('access') as String;
+      final token = box.get('access') as String?;
+      if (token == null) {
+        throw Exception('Token is null');
+      }
       return token;
     } else {
       throw Exception('Hive box is not open');
@@ -59,14 +62,14 @@ class PostService {
   Future<bool> postImages(List<File> images, List<String> urls) async {
     try {
       for (int i = 0; i < images.length; i++) {
-        final image_url = urls[i];
+        final imageUrl = urls[i];
         final imageBytes = await images[i].readAsBytes();
         String type = images[i].path.split(".").last;
         if (type == "jpg") {
           type = "jpeg";
         }
         final response = await http.put(
-          Uri.parse(image_url),
+          Uri.parse(imageUrl),
           headers: {
             'Content-Type': "image/$type", // Adjust based on your image type
             'Content-Length': imageBytes.length.toString(),
