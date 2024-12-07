@@ -17,7 +17,7 @@ class _AllNotesPageState extends State<AllNotesPage> {
       child: ListView.builder(
         itemCount: 1,
         itemBuilder: (context, index) {
-          return itemBuilder(context, index);
+          return const NoteCard();
         },
       ),
     );

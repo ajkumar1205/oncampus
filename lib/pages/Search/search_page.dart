@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:oncampus/constants/padding.const.dart';
 
 import '../../utils/extensions.dart';
 import '../../constants/colors.const.dart';

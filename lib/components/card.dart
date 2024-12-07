@@ -20,22 +20,21 @@ class _HomeCardState extends State<HomeCard> {
     'https://via.placeholder.com/600x300.png?text=Image+3',
   ];
 
-  final CarouselController _carouselController = CarouselController();
   int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return Container(
-      padding: EdgeInsets.all(screenWidth * 0.015),
-      margin: EdgeInsets.all(screenWidth * 0.03),
-      width: screenWidth * 0.85,
+      padding: EdgeInsets.all(screenWidth * 0.03),
+      margin: EdgeInsets.all(screenWidth * 0.04),
+      width: screenWidth * 0.9,
       height: screenHeight * 0.55,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(screenWidth * 0.03),
         border: Border.all(
           color: Colors.white,
-          width: 2,
+          width: screenWidth * 0.005,
         ),
         color: Colors.black54,
       ),
@@ -45,22 +44,30 @@ class _HomeCardState extends State<HomeCard> {
           // Header (Avatar and Name)
           Row(
             children: [
-              CircleAvatar(
-                radius: screenWidth * 0.07,
-                backgroundColor: Colors.black,
-                child: const Icon(
-                  Icons.person,
-                  color: Colors.white,
-                  size: 30,
+              Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.white, // Border color
+                    width: screenWidth * 0.005, // Border width
+                  ),
                 ),
+                child: CircleAvatar(
+                    radius: screenWidth * 0.06,
+                    backgroundColor: Colors.black,
+                    child: Icon(
+                      Icons.person,
+                      color: Colors.white,
+                      size: screenWidth * 0.08,
+                    )),
               ),
-              SizedBox(width: screenWidth * 0.03),
-              const Text(
-                "NAME",
+              SizedBox(width: screenWidth * 0.04),
+              Text(
+                "Name",
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
+                  fontSize: screenWidth * 0.045,
                 ),
               ),
             ],
@@ -142,7 +149,7 @@ class _HomeCardState extends State<HomeCard> {
                         );
                       },
                       icon: Icon(
-                        FontAwesomeIcons.comment,
+                        FontAwesomeIcons.comments,
                         color: Colors.white,
                         size: screenWidth * 0.05,
                       ),
