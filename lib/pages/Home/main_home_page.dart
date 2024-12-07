@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:oncampus/pages/Chat/chat_list_page.dart';
-import 'package:oncampus/pages/Chat/chat_page.dart';
+
 import 'package:oncampus/pages/Posts/createPost_page.dart';
 
 import '../Search/search_page.dart';
