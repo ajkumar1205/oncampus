@@ -82,13 +82,13 @@ class _RegisterPageState extends State<RegisterPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // const SizedBox(height: 40),
+              const SizedBox(height: 40),
               Container(
                 width: 100,
                 height: 100,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/logo1.png'),
+                    image: AssetImage('assets/logo.png'),
                     fit: BoxFit.cover,
                   ),
                 ),

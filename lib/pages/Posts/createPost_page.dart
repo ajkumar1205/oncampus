@@ -241,12 +241,15 @@
 // }
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:oncampus/constants/padding.const.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_isolate/flutter_isolate.dart';
+import 'package:oncampus/services/post_service.dart';
 
 class CreatepostPage extends StatefulWidget {
   const CreatepostPage({super.key});
@@ -261,12 +264,16 @@ class _CreatepostPageState extends State<CreatepostPage> {
   final CarouselController _carouselController = CarouselController();
   int _currentIndex = 0;
 
+  final postService = PostService();
+
   void selectImage(ImageSource source) async {
     XFile? pickedFile = await ImagePicker().pickImage(source: source);
     if (pickedFile != null) {
       cropImage(pickedFile);
     }
   }
+
+  final textController = TextEditingController();
 
   void cropImage(XFile file) async {
     CroppedFile? croppedImage = await ImageCropper().cropImage(
@@ -341,7 +348,34 @@ class _CreatepostPageState extends State<CreatepostPage> {
         ),
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              postService
+                  .createPost(textController.text, _selectedOption == 'Public',
+                      imageFiles)
+                  .then((val) {
+                if (val) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Post created successfully"),
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Failed to create post"),
+                    ),
+                  );
+                }
+              });
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Creating post..."),
+                ),
+              );
+
+              GoRouter.of(context).pop();
+            },
             child: const Text(
               "Next",
               style: TextStyle(color: Colors.blue),
@@ -468,6 +502,7 @@ class _CreatepostPageState extends State<CreatepostPage> {
                 width: 300,
                 child: TextField(
                   maxLines: 3,
+                  controller: textController,
                   style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     hintText: 'Add Caption...',

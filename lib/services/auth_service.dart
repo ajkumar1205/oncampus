@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
+import 'package:oncampus/constants/hive.const.dart';
 
 import '../constants/api.const.dart';
 
@@ -85,14 +87,45 @@ class AuthService {
       );
 
       if (response.statusCode == 200) {
+        final data = jsonDecode(response.body) as Map<String, dynamic>;
+
+        final refresh = data['tokens']['refresh'] as String?;
+        final access = data['tokens']['access'] as String?;
+
+        log(data.toString());
+
+        log(refresh ?? "No token");
+        log(access ?? "No token");
+        print(
+            "========================================================================================");
+        print(
+            "=========================================================================================");
+        print(refresh);
+        print(access);
+        print(
+            "=========================================================================================");
+        print(
+            "=========================================================================================");
+
+        if (Hive.isBoxOpen(config)) {
+          final box = Hive.box(config);
+          box.put('refresh', refresh);
+          box.put('access', access);
+        } else {
+          final box = await Hive.openBox(config);
+          box.put('refresh', refresh);
+          box.put('access', access);
+        }
+
         return true;
       }
 
-      log(response.body);
+      log(response.body, error: response.statusCode);
 
       return false;
     } catch (e) {
       log(e.toString());
+      log("Error occured", error: e);
       return false;
     }
   }

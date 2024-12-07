@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:oncampus/constants/hive.const.dart';
+import 'package:oncampus/pages/Profile/profile_page.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'utils/router.dart';
@@ -12,16 +13,18 @@ import 'models/user.model.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  Hive.init(
-    (await getApplicationDocumentsDirectory()).path,
-  );
-
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
+  await Hive.initFlutter();
   Hive.registerAdapter(UserAdapter());
-  await Hive.openBox(config);
+
+  try {
+    // Open the box
+    await Hive.openBox(config);
+  } catch (e) {
+    print('Error opening Hive box: $e');
+    // Optionally delete and recreate the box if there's a persistent issue
+    await Hive.deleteBoxFromDisk(config);
+    await Hive.openBox(config);
+  }
 
   runApp(const MyApp());
 }
