@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oncampus/components/textCard.dart';
 import '../../components/card.dart';
 
 class FriendsHomePage extends StatefulWidget {
@@ -18,7 +19,7 @@ class _FriendsHomePageState extends State<FriendsHomePage> {
       child: ListView.builder(
         itemCount: 5,
         itemBuilder: (context, index) {
-          return const HomeCard();
+          return textCard(context);
         },
       ),
     );

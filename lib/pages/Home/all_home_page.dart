@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oncampus/components/textCard.dart';
 import '../../components/card.dart';
 
 class AllHomePage extends StatefulWidget {
@@ -14,11 +15,11 @@ class _AllHomePageState extends State<AllHomePage> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Padding(
-      padding: EdgeInsets.all(screenWidth * 0.06),
+      padding: EdgeInsets.all(screenWidth * 0.03),
       child: ListView.builder(
         itemCount: 1,
         itemBuilder: (context, index) {
-          return const HomeCard();
+          return textCard(context);
         },
       ),
     );

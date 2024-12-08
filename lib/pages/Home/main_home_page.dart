@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:oncampus/pages/Chat/chat_list_page.dart';
 import 'package:oncampus/pages/Notes/create_notes_page.dart';
 
-import 'package:oncampus/pages/Posts/createPost_page.dart';
+import 'package:oncampus/pages/Posts/createTextPost_page.dart';
 
 import '../Search/search_page.dart';
 import '../Notes/notes_page.dart';
@@ -65,7 +65,7 @@ class _MainHomePageState extends State<MainHomePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const CreatepostPage()));
+                        builder: (context) => const CreateTextPostPage()));
               },
               icon: const Icon(
                 Icons.add,
@@ -115,9 +115,13 @@ class _MainHomePageState extends State<MainHomePage> {
                     icon: Icons.search,
                     selected: _selectedScreenIndex == 1,
                     ontap: () {
-                      setState(() {
-                        _selectedScreenIndex = 1;
-                      });
+                      // setState(() {
+                      //   _selectedScreenIndex = 1;
+                      // });
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SearchScreen()));
                     },
                   ),
                   IconBottomBar(

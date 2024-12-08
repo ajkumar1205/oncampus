@@ -33,7 +33,7 @@ class _NoteCardState extends State<NoteCard> {
           borderRadius: BorderRadius.circular(screenWidth * 0.03),
           border: Border.all(
             color: Colors.white,
-            width: screenWidth * 0.005,
+            width: screenWidth * 0.002,
           ),
         ),
         child: Column(
@@ -45,7 +45,7 @@ class _NoteCardState extends State<NoteCard> {
                     shape: BoxShape.circle,
                     border: Border.all(
                       color: Colors.white, // Border color
-                      width: screenWidth * 0.005, // Border width
+                      width: screenWidth * 0.002, // Border width
                     ),
                   ),
                   child: CircleAvatar(

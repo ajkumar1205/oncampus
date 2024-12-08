@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'dart:async';
 import '../../utils/extensions.dart';
 import '../../constants/colors.const.dart';
 
@@ -71,6 +71,32 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  final TextEditingController _searchController = TextEditingController();
+  Timer? _debounceTimer;
+  bool _showResults = false;
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _debounceTimer?.cancel();
+    super.dispose();
+  }
+
+  void _onSearchChanged(String query) {
+    // Cancel the previous timer
+    _debounceTimer?.cancel();
+
+    // Set a new timer
+    _debounceTimer = Timer(const Duration(seconds: 2), () {
+      // Check if query is not empty before showing results
+      if (query.isNotEmpty) {
+        setState(() {
+          _showResults = true;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,6 +110,14 @@ class _SearchScreenState extends State<SearchScreen> {
           child: Column(
             children: [
               TextField(
+                controller: _searchController,
+                onChanged: (value) {
+                  setState(() {
+                    _showResults = false; // Hide results while typing
+                  });
+                  _onSearchChanged(value);
+                },
+                style: const TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                   hintText: "Search",
                   hintStyle: const TextStyle(color: Colors.grey),
@@ -97,27 +131,34 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
               // const SizedBox(height: 20),
               Expanded(
-                child: ListView.builder(
-                  itemCount: 3,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const SearchProfileScreen()));
-                      },
-                      leading: const CircleAvatar(),
-                      title: const Text(
-                        "username",
-                        style: TextStyle(color: Colors.white),
+                child: _showResults
+                    ? ListView.builder(
+                        itemCount: 3,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SearchProfileScreen()));
+                            },
+                            leading: const CircleAvatar(),
+                            title: const Text(
+                              "username",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            subtitle: const Text("name",
+                                style: TextStyle(color: Colors.white)),
+                          );
+                        },
+                      )
+                    : const Center(
+                        child: Text(
+                          "Start typing to see results...",
+                          style: TextStyle(color: Colors.grey, fontSize: 16),
+                        ),
                       ),
-                      subtitle: const Text("name",
-                          style: TextStyle(color: Colors.white)),
-                    );
-                  },
-                ),
               )
             ],
           ),
