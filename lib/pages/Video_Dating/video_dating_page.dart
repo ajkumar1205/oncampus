@@ -154,8 +154,11 @@ class _VideoDatingPageState extends State<VideoDatingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text("Video Dating"),
+        backgroundColor: Colors.black,
+        title:
+            const Text("Video Dating", style: TextStyle(color: Colors.white)),
       ),
       body: Column(
         children: [

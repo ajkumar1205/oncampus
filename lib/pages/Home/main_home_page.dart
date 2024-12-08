@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:oncampus/pages/Chat/chat_list_page.dart';
+import 'package:oncampus/pages/Notes/create_notes_page.dart';
 
 import 'package:oncampus/pages/Posts/createPost_page.dart';
 
@@ -133,7 +134,7 @@ class _MainHomePageState extends State<MainHomePage> {
                     },
                   ),
                   IconBottomBar(
-                    icon: Icons.notes,
+                    icon: Icons.menu_book,
                     selected: _selectedScreenIndex == 3,
                     ontap: () {
                       setState(() {
@@ -154,6 +155,21 @@ class _MainHomePageState extends State<MainHomePage> {
               )),
         ),
       ),
+      floatingActionButton: _selectedScreenIndex == 3
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const CreateNotesPage()));
+              },
+              backgroundColor: kPrimaryColor,
+              child: const Icon(
+                Icons.add,
+                color: Colors.black,
+              ),
+            )
+          : null,
     );
   }
 }
