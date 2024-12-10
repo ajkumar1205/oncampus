@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oncampus/constants/padding.const.dart';
@@ -107,9 +109,9 @@ class _CreatepostPageState extends State<CreatepostPage> {
         actions: [
           TextButton(
             onPressed: () {
+              log("Next Button Clicked");
               postService
-                  .createPost(textController.text, _selectedOption == 'Public',
-                      imageFiles)
+                  .createPost(textController.text, _selectedOption == 'Public')
                   .then((val) {
                 if (val) {
                   ScaffoldMessenger.of(context).showSnackBar(

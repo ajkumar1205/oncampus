@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:oncampus/services/post_service.dart';
 import '../../utils/extensions.dart';
+
+import 'dart:developer';
 
 class CreateTextPostPage extends StatefulWidget {
   const CreateTextPostPage({super.key});
@@ -10,6 +14,10 @@ class CreateTextPostPage extends StatefulWidget {
 
 class _CreateTextPostPageState extends State<CreateTextPostPage> {
   String? _selectedOption = 'Public';
+
+  final postService = PostService();
+
+  final textController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +40,33 @@ class _CreateTextPostPageState extends State<CreateTextPostPage> {
         ),
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              log("Next Button Clicked");
+              postService
+                  .createPost(textController.text, _selectedOption == 'Public')
+                  .then((val) {
+                if (val) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Post created successfully"),
+                    ),
+                  );
+                  GoRouter.of(context).pop();
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Failed to create post"),
+                    ),
+                  );
+                }
+              });
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Creating post..."),
+                ),
+              );
+            },
             child: const Text(
               "Next",
               style: TextStyle(color: Colors.blue),
@@ -90,6 +124,7 @@ class _CreateTextPostPageState extends State<CreateTextPostPage> {
             SizedBox(
               width: 80.w,
               child: TextField(
+                controller: textController,
                 maxLines: 10,
                 style: const TextStyle(color: Colors.white),
                 decoration: InputDecoration(

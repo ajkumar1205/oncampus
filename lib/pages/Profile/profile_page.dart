@@ -37,9 +37,11 @@ class _ProfilePageState extends State<ProfilePage> {
                     radius: 10.w,
                     backgroundColor: Colors.white,
                     child: CachedNetworkImage(
-                      imageUrl: user!.profileUrl != null
-                          ? user!.profileUrl.toString()
-                          : "",
+                      imageUrl: user == null
+                          ? ""
+                          : user!.profileUrl == null
+                              ? ""
+                              : user!.profileUrl.toString(),
                       placeholder: (context, url) =>
                           const CircularProgressIndicator(),
                       errorWidget: (context, url, error) =>

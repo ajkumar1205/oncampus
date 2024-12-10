@@ -6,10 +6,12 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:oncampus/constants/api.const.dart';
 import 'package:oncampus/constants/hive.const.dart';
+import 'package:oncampus/models/post.model.dart';
 
 class PostService {
-  Future<bool> createPost(String text, bool public, List<File> images) async {
+  Future<bool> createPost(String text, bool public) async {
     try {
+      log("Creating Post..................");
       const url = "$baseUrl/posts/create";
       final access = getAccessToken();
       final response = await http.post(Uri.parse(url),
@@ -17,29 +19,19 @@ class PostService {
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer $access',
           },
-          body: jsonEncode({
-            'text': text,
-            'public': public,
-            'images': images.map((e) => e.path).toList(),
-          }));
+          body: jsonEncode({'text': text, 'public': public}));
 
       if (response.statusCode == 201) {
-        final data = jsonDecode(response.body) as List<String>;
+        final data = response.body;
 
         log(data.toString());
-
-        // Implement Flutter Isolate for post Images
-        if (images.isNotEmpty) {
-          final result = await postImages(images, data);
-          if (!result) {
-            return false;
-          }
-        }
 
         return true;
       }
 
-      return true;
+      log("Error Occured While Creating Post", error: response.statusCode);
+
+      return false;
     } catch (e) {
       // Log the error and return false
       return false;
@@ -90,4 +82,66 @@ class PostService {
       return false;
     }
   }
+
+  Future<List<Post>> getAllPosts() async {
+    try {
+      final access = getAccessToken();
+      final response = await http.get(
+        Uri.parse("$baseUrl/posts/list?count=30"),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $access',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body) as List<dynamic>;
+
+        List<Post> posts = [];
+        for (final post in data) {
+          posts.add(Post.fromJson(post as Map<String, dynamic>));
+        }
+
+        return posts;
+      }
+
+      return [];
+    } catch (e) {
+      log("Error occured In fetching all posts", error: e);
+      return [];
+    }
+  }
+
+  Future<List<Post>> getFriendsPosts() async {
+    try {
+      final access = getAccessToken();
+      final response = await http.get(
+        Uri.parse("$baseUrl/posts/list/friends?count=30"),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $access',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body) as List<dynamic>;
+
+        List<Post> posts = [];
+        for (final post in data) {
+          posts.add(Post.fromJson(post as Map<String, dynamic>));
+        }
+
+        return posts;
+      }
+
+      return [];
+    } catch (e) {
+      log("Error occured in fetching friends posts", error: e);
+      return [];
+    }
+  }
+
+  // Future<dynamic> getComments(String postId) {
+
+  // }
 }

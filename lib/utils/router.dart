@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
 import 'package:oncampus/constants/hive.const.dart';
@@ -10,23 +12,38 @@ import '../pages/Authentication/otp_verification_page.dart';
 
 final router = GoRouter(
   redirect: (context, state) {
-    if (state.fullPath == RegisterPage.route) {
-      final user = Hive.box(config).get(currentUser) as User?;
+    final user = Hive.box(config).get(currentUser) as User?;
+    log('Navigating to: ${state.fullPath}');
+    log('User: ${user?.toJson()}');
 
-      if (user == null) {
-        return RegisterPage.route;
+    // No user logged in
+    if (user == null) {
+      if (state.matchedLocation != LoginPage.route &&
+          state.matchedLocation != RegisterPage.route) {
+        return LoginPage.route;
       }
-
-      if (user.isActive) {
-        return MainHomePage.route;
-      } else {
-        return OTPVerificationPage.route;
-      }
+      return null; // Allow navigation to LoginPage or RegisterPage
     }
 
-    return null;
+    // User exists but not active
+    if (!user.isActive) {
+      if (state.matchedLocation != OTPVerificationPage.route) {
+        log("User is not active, redirecting to OTPVerificationPage");
+        return OTPVerificationPage.route;
+      }
+      return null; // Allow navigation to OTPVerificationPage
+    }
+
+    // User is active
+    if ([LoginPage.route, RegisterPage.route, OTPVerificationPage.route]
+        .contains(state.matchedLocation)) {
+      log("User is active, redirecting to MainHomePage");
+      return MainHomePage.route;
+    }
+
+    return null; // No redirection
   },
-  initialLocation: MainHomePage.route,
+  initialLocation: LoginPage.route,
   initialExtra: {"index": 0},
   routes: [
     GoRoute(
@@ -40,7 +57,9 @@ final router = GoRouter(
     GoRoute(
       path: MainHomePage.route,
       builder: (context, state) => MainHomePage(
-          index: (state.extra as Map<String, dynamic>)['index'] ?? 0),
+          index: state.extra != null
+              ? ((state.extra as Map<String, dynamic>)['index'] ?? 0)
+              : 0),
     ),
     GoRoute(
       path: OTPVerificationPage.route,

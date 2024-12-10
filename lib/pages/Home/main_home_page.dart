@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:oncampus/constants/hive.const.dart';
+import 'package:oncampus/models/user.model.dart';
 import 'package:oncampus/pages/Chat/chat_list_page.dart';
 import 'package:oncampus/pages/Notes/create_notes_page.dart';
 
@@ -42,6 +45,8 @@ class _MainHomePageState extends State<MainHomePage> {
   void initState() {
     _selectedScreenIndex = widget.index;
     super.initState();
+    final user = Hive.box(config).get(currentUser) as User?;
+    titles[4] = user == null ? "" : user.userName;
   }
 
   @override

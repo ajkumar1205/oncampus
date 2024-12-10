@@ -4,10 +4,71 @@ import 'dart:developer';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:oncampus/constants/hive.const.dart';
+import 'package:oncampus/models/user.model.dart';
 
 import '../constants/api.const.dart';
 
 class AuthService {
+  Future<String?> login({
+    required String user,
+    required String password,
+  }) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/auth/login'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode({
+          'user': user.trim(),
+          'password': password.trim(),
+        }),
+      );
+
+      log(response.toString());
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body) as Map<String, dynamic>;
+        log(data.toString());
+        final tokens = data['tokens'] as Map<String, dynamic>;
+        final user = data['user'] as Map<String, dynamic>;
+
+        if (Hive.isBoxOpen(config)) {
+          final box = Hive.box(config);
+          box.put('refresh', tokens['refresh_token'] as String);
+          box.put('access', tokens['access_token'] as String);
+          User newuser = User.fromJson(user);
+          newuser.isActive = true;
+
+          Hive.box(config).put(currentUser, newuser);
+        } else {
+          final box = await Hive.openBox(config);
+          box.put('refresh', tokens['refresh_token']);
+          box.put('access', tokens['access_token']);
+          User newuser = User.fromJson(user);
+          newuser.isActive = true;
+
+          Hive.box(config).put(currentUser, newuser);
+        }
+
+        return null;
+      } else {
+        // Check if the response is JSON or plain text
+        final contentType = response.headers['Content-Type'];
+        if (contentType != null && contentType.contains('application/json')) {
+          log(response.body);
+          return jsonDecode(response.body);
+        } else {
+          log(response.body);
+          return response.body;
+        }
+      }
+    } catch (e) {
+      log("Something went wrong while login", error: e);
+      return 'An error occurred';
+    }
+  }
+
   Future<Map<String, dynamic>> register({
     required String firstname,
     required String lastname,
@@ -89,8 +150,8 @@ class AuthService {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body) as Map<String, dynamic>;
 
-        final refresh = data['tokens']['refresh'] as String?;
-        final access = data['tokens']['access'] as String?;
+        final refresh = data['tokens']['refresh_token'] as String?;
+        final access = data['tokens']['access_token'] as String?;
 
         log(data.toString());
 
@@ -116,6 +177,13 @@ class AuthService {
           box.put('refresh', refresh);
           box.put('access', access);
         }
+
+        final user = Hive.box(config).get(currentUser) as User;
+        user.isActive = true;
+        final updatedUser = User.from(user);
+        updatedUser.isActive = true;
+
+        Hive.box(config).put(currentUser, updatedUser);
 
         return true;
       }

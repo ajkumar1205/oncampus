@@ -7,7 +7,6 @@ import 'package:path_provider/path_provider.dart';
 
 import 'utils/router.dart';
 import 'constants/size.const.dart';
-import 'firebase_options.dart';
 import 'models/user.model.dart';
 
 void main() async {

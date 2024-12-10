@@ -1,27 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:oncampus/components/textCard.dart';
+import 'package:oncampus/services/post_service.dart';
+import 'package:oncampus/utils/extensions.dart';
 import '../../components/card.dart';
 
-class AllHomePage extends StatefulWidget {
+class AllHomePage extends StatelessWidget {
   const AllHomePage({super.key});
 
   @override
-  State<AllHomePage> createState() => _AllHomePageState();
-}
-
-class _AllHomePageState extends State<AllHomePage> {
-  @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
+    final postService = PostService();
 
-    return Padding(
-      padding: EdgeInsets.all(screenWidth * 0.03),
-      child: ListView.builder(
-        itemCount: 1,
-        itemBuilder: (context, index) {
-          return textCard(context);
-        },
-      ),
-    );
+    return FutureBuilder(
+        future: postService.getAllPosts(),
+        builder: (context, snap) {
+          if (snap.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (snap.hasError) {
+            return const Center(
+                child: Text("Error", style: TextStyle(color: Colors.white)));
+          }
+
+          if (snap.data == null || snap.data!.isEmpty) {
+            return const Center(
+                child: Text("No posts available",
+                    style: TextStyle(color: Colors.white)));
+          }
+
+          return Padding(
+            padding: EdgeInsets.all(3.w),
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: snap.data!.length,
+              itemBuilder: (context, index) {
+                final post = snap.data![index];
+                return textCard(context, post);
+              },
+            ),
+          );
+        });
   }
 }

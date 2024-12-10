@@ -23,11 +23,11 @@ class UserAdapter extends TypeAdapter<User> {
       email: fields[3] as String,
       dob: fields[4] as DateTime,
       userName: fields[9] as String,
+      isActive: fields[5] as bool,
       profileUrl: fields[6] as Uri?,
+      bio: fields[8] as String?,
       roll: fields[7] as String,
-    )
-      ..isActive = fields[5] as bool
-      ..bio = fields[8] as String?;
+    );
   }
 
   @override

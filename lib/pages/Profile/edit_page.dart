@@ -1,5 +1,8 @@
 import "package:flutter/material.dart";
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:oncampus/constants/hive.const.dart';
 import "package:oncampus/constants/padding.const.dart";
+import 'package:oncampus/models/user.model.dart';
 import '../../utils/extensions.dart';
 import '../../constants/colors.const.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -34,6 +37,21 @@ class _EditPageState extends State<EditPage> {
         imageFile = File(croppedImage.path);
       });
     }
+  }
+
+  final user = Hive.box(config).get(currentUser) as User?;
+
+  late TextEditingController firstNameController;
+  late TextEditingController lastNameController;
+  late TextEditingController bioController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    firstNameController = TextEditingController(text: user?.firstname);
+    lastNameController = TextEditingController(text: user?.lastname);
+    bioController = TextEditingController(text: user!.bio ?? "");
   }
 
   void showPhotoOptions() {
@@ -89,7 +107,7 @@ class _EditPageState extends State<EditPage> {
               height: 9.h,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/logo1.png'),
+                  image: AssetImage('assets/logo.png'),
                   fit: BoxFit.contain,
                 ),
               ),
@@ -128,7 +146,7 @@ class _EditPageState extends State<EditPage> {
                 TextField(
                   style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
-                    hintText: 'Name',
+                    hintText: 'First Name',
                     hintStyle: const TextStyle(color: Colors.grey),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0)),
@@ -138,22 +156,32 @@ class _EditPageState extends State<EditPage> {
                 TextField(
                   style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
-                    hintText: 'Username',
+                    hintText: 'Last Name',
                     hintStyle: const TextStyle(color: Colors.grey),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0)),
                   ),
                 ),
-                const SizedBox(height: 10),
-                TextField(
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    hintText: 'Add Your Pronouns',
-                    hintStyle: const TextStyle(color: Colors.grey),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                  ),
-                ),
+                // const SizedBox(height: 10),
+                // TextField(
+                //   style: const TextStyle(color: Colors.white),
+                //   decoration: InputDecoration(
+                //     hintText: 'Username',
+                //     hintStyle: const TextStyle(color: Colors.grey),
+                //     border: OutlineInputBorder(
+                //         borderRadius: BorderRadius.circular(10.0)),
+                //   ),
+                // ),
+                // const SizedBox(height: 10),
+                // TextField(
+                //   style: const TextStyle(color: Colors.white),
+                //   decoration: InputDecoration(
+                //     hintText: 'Add Your Pronouns',
+                //     hintStyle: const TextStyle(color: Colors.grey),
+                //     border: OutlineInputBorder(
+                //         borderRadius: BorderRadius.circular(10.0)),
+                //   ),
+                // ),
                 const SizedBox(height: 10),
                 TextField(
                   style: const TextStyle(color: Colors.white),

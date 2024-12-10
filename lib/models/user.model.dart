@@ -21,7 +21,7 @@ class User {
   DateTime dob;
 
   @HiveField(5)
-  bool isActive = false;
+  bool isActive;
 
   @HiveField(6)
   Uri? profileUrl;
@@ -42,7 +42,9 @@ class User {
     required this.email,
     required this.dob,
     required this.userName,
+    required this.isActive,
     this.profileUrl,
+    this.bio,
     required this.roll, // Initialize the new field
   });
 
@@ -54,15 +56,31 @@ class User {
       lastname: json['last_name'],
       email: json['email'],
       dob: DateTime.parse(json['dob']),
+      isActive: false,
       profileUrl:
           json['profile_url'] != null ? Uri.parse(json['profile_url']) : null,
       roll: json['roll'], // Parse the new field
+      bio: json['bio'],
+    );
+  }
+
+  factory User.from(User user){
+    return User(
+      id: user.id,
+      firstname: user.firstname,
+      userName: user.userName,
+      lastname: user.lastname,
+      email: user.email,
+      dob: user.dob,
+      isActive: user.isActive,
+      profileUrl: user.profileUrl,
+      roll: user.roll,
+      bio: user.bio,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      
       'id': id,
       'username': userName,
       'first_name': firstname,
@@ -70,7 +88,7 @@ class User {
       'email': email,
       'dob': DateFormat('yyyy-MM-dd').format(dob),
       if (profileUrl != null) 'profile_url': profileUrl?.toString(),
-      'roll': roll, 
+      'roll': roll,
       if (bio != null) 'bio': bio,
     };
   }

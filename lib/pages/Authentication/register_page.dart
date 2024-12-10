@@ -6,6 +6,7 @@ import 'package:hive/hive.dart';
 
 import 'package:oncampus/constants/hive.const.dart';
 import 'package:oncampus/models/user.model.dart';
+import 'package:oncampus/pages/Authentication/login_page.dart';
 import 'package:oncampus/pages/Authentication/otp_verification_page.dart';
 import '../../constants/colors.const.dart';
 import '../../constants/padding.const.dart';
@@ -245,17 +246,31 @@ class _RegisterPageState extends State<RegisterPage> {
 
               SizedBox(height: fieldSpacing),
               TextButton(
-                  style: TextButton.styleFrom(
-                      backgroundColor: kPrimaryColor,
-                      padding: EdgeInsets.symmetric(
-                        vertical: formFieldHeight * 0.3,
-                        horizontal: screenWidth * 0.1,
-                      ),
-                      shape: ContinuousRectangleBorder(
-                          borderRadius: BorderRadius.circular(15))),
-                  onPressed: _register,
-                  child: const Text("Register",
-                      style: TextStyle(color: Colors.black)))
+                style: TextButton.styleFrom(
+                    backgroundColor: kPrimaryColor,
+                    padding: EdgeInsets.symmetric(
+                      vertical: formFieldHeight * 0.3,
+                      horizontal: screenWidth * 0.1,
+                    ),
+                    shape: ContinuousRectangleBorder(
+                        borderRadius: BorderRadius.circular(15))),
+                onPressed: _register,
+                child: const Text(
+                  "Register",
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold),
+                ),
+              ),
+
+              TextButton(
+                onPressed: () {
+                  GoRouter.of(context).go(LoginPage.route);
+                },
+                child: const Text(
+                  "Already have an account? Login!",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
             ],
           ),
         ),
